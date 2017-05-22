@@ -13,7 +13,7 @@ namespace ELearnerApp
         }
 
         public virtual DbSet<Account> Accounts { get; set; }
-        public virtual DbSet<Cours> Courses { get; set; }
+        public virtual DbSet<Course> Courses { get; set; }
         public virtual DbSet<Student> Students { get; set; }
         public virtual DbSet<Teacher> Teachers { get; set; }
 
@@ -32,15 +32,15 @@ namespace ELearnerApp
                 .WithRequired(e => e.Account)
                 .WillCascadeOnDelete(false);
 
-            modelBuilder.Entity<Cours>()
+            modelBuilder.Entity<Course>()
                 .Property(e => e.Name)
                 .IsUnicode(false);
 
-            modelBuilder.Entity<Cours>()
+            modelBuilder.Entity<Course>()
                 .Property(e => e.Price)
                 .HasPrecision(5, 2);
 
-            modelBuilder.Entity<Cours>()
+            modelBuilder.Entity<Course>()
                 .HasMany(e => e.Students)
                 .WithMany(e => e.Courses)
                 .Map(m => m.ToTable("Subscriptions").MapLeftKey("CourseId").MapRightKey("StudentId"));
