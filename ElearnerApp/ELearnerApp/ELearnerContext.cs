@@ -69,6 +69,17 @@ namespace ELearnerApp
                 .HasMany(e => e.Courses)
                 .WithRequired(e => e.Teacher)
                 .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Teacher>()
+                .Property(e => e.Email)
+                .IsRequired()
+                .IsUnicode(false)
+                .HasMaxLength(50);
+
+
+            //modelBuilder.Entity<Teacher>()
+            //    .HasRequired(a => a.Account)
+            //    .WithRequiredDependent(t => t.Teacher);
         }
     }
 }

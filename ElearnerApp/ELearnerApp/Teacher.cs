@@ -26,6 +26,10 @@ namespace ELearnerApp
         [StringLength(50)]
         public string Lastname { get; set; }
 
+        public string Email { get; set; }
+
+        //public virtual Account Account { get; set; }
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Course> Courses { get; set; }
     }

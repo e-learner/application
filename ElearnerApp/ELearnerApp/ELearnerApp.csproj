@@ -58,6 +58,10 @@
     <Compile Include="Migrations\201705222117065_initialModel.Designer.cs">
       <DependentUpon>201705222117065_initialModel.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201705232107355_AddEmailToTeacherTable.cs" />
+    <Compile Include="Migrations\201705232107355_AddEmailToTeacherTable.Designer.cs">
+      <DependentUpon>201705232107355_AddEmailToTeacherTable.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -71,6 +75,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201705222117065_initialModel.resx">
       <DependentUpon>201705222117065_initialModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201705232107355_AddEmailToTeacherTable.resx">
+      <DependentUpon>201705232107355_AddEmailToTeacherTable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
