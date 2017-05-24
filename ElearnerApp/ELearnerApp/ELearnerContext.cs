@@ -5,10 +5,10 @@ namespace ELearnerApp
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Linq;
 
-    public partial class ELearnerContext : DbContext
+    public partial class ElearnerContext : DbContext
     {
-        public ELearnerContext ()
-            : base("name=ELearnerContext")
+        public ElearnerContext ()
+            : base("name=ElearnerContext")
         {
         }
 
@@ -32,13 +32,22 @@ namespace ELearnerApp
                 .WithRequired(e => e.Account)
                 .WillCascadeOnDelete(false);
 
+            modelBuilder.Entity<Account>()
+                .HasMany(e => e.Teachers)
+                .WithRequired(e => e.Account)
+                .WillCascadeOnDelete(false);
+
             modelBuilder.Entity<Course>()
                 .Property(e => e.Name)
                 .IsUnicode(false);
 
             modelBuilder.Entity<Course>()
                 .Property(e => e.Price)
-                .HasPrecision(5, 2);
+                .HasPrecision(10, 2);
+
+            modelBuilder.Entity<Course>()
+                .Property(e => e.Contents)
+                .IsUnicode(false);
 
             modelBuilder.Entity<Course>()
                 .HasMany(e => e.Students)
@@ -66,20 +75,8 @@ namespace ELearnerApp
                 .IsUnicode(false);
 
             modelBuilder.Entity<Teacher>()
-                .HasMany(e => e.Courses)
-                .WithRequired(e => e.Teacher)
-                .WillCascadeOnDelete(false);
-
-            modelBuilder.Entity<Teacher>()
                 .Property(e => e.Email)
-                .IsRequired()
-                .IsUnicode(false)
-                .HasMaxLength(50);
-
-
-            //modelBuilder.Entity<Teacher>()
-            //    .HasRequired(a => a.Account)
-            //    .WithRequiredDependent(t => t.Teacher);
+                .IsUnicode(false);
         }
     }
 }

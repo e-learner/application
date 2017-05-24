@@ -25,12 +25,14 @@ namespace ELearnerApp
         [StringLength(50)]
         public string Lastname { get; set; }
 
+        [Column(TypeName = "date")]
+        public DateTime Birthdate { get; set; }
+
         [Required]
         [StringLength(50)]
         public string Email { get; set; }
 
-        [Column(TypeName = "date")]
-        public DateTime BirthDate { get; set; }
+        public int AccountId { get; set; }
 
         public virtual Account Account { get; set; }
 

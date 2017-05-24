@@ -15,6 +15,7 @@ namespace ELearnerApp
             Students = new HashSet<Student>();
         }
 
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int Id { get; set; }
 
         [Required]
@@ -25,7 +26,11 @@ namespace ELearnerApp
 
         public decimal Price { get; set; }
 
-        public int TeacherId { get; set; }
+        [Required]
+        [StringLength(1000)]
+        public string Contents { get; set; }
+
+        public int? TeacherId { get; set; }
 
         public virtual Teacher Teacher { get; set; }
 
