@@ -15,7 +15,6 @@ namespace ELearnerApp
             Teachers = new HashSet<Teacher>();
         }
 
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int Id { get; set; }
 
         [Required]

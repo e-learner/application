@@ -33,6 +33,10 @@ namespace ELearnerApp
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Account>()
+                .Property(a => a.Id)
+                .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+
+            modelBuilder.Entity<Account>()
                 .HasMany(e => e.Teachers)
                 .WithRequired(e => e.Account)
                 .WillCascadeOnDelete(false);
