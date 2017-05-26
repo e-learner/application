@@ -28,7 +28,7 @@ namespace ELearnerApp
 
         [Required]
         [StringLength(1000)]
-        public string Contents { get; set; }
+        public string ContentsPath { get; set; }
 
         public int? TeacherId { get; set; }
 

@@ -16,6 +16,7 @@ namespace ELearnerApp
         public virtual DbSet<Course> Courses { get; set; }
         public virtual DbSet<Student> Students { get; set; }
         public virtual DbSet<Teacher> Teachers { get; set; }
+       // public virtual DbSet<BankAccount> BankAccounts { get; set; }
 
         protected override void OnModelCreating (DbModelBuilder modelBuilder)
         {
@@ -50,8 +51,12 @@ namespace ELearnerApp
                 .HasPrecision(10, 2);
 
             modelBuilder.Entity<Course>()
-                .Property(e => e.Contents)
+                .Property(e => e.ContentsPath)
                 .IsUnicode(false);
+
+            modelBuilder.Entity<Teacher>()
+                .Property(e => e.Id)
+                .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
 
             modelBuilder.Entity<Course>()
                 .HasMany(e => e.Students)
@@ -59,17 +64,19 @@ namespace ELearnerApp
                 .Map(m => m.ToTable("Subscriptions").MapLeftKey("CourseId").MapRightKey("StudentId"));
 
             modelBuilder.Entity<Student>()
+                .Property(e => e.Id)
+                .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+
+            modelBuilder.Entity<Student>()
                 .Property(e => e.Name)
-                .IsUnicode(false);
+                .IsUnicode(false)
+                .HasMaxLength(50)
+                .IsRequired();
 
             modelBuilder.Entity<Student>()
                 .Property(e => e.Lastname)
                 .IsUnicode(false);
 
-            modelBuilder.Entity<Student>()
-                .Property(e => e.Email)
-                .IsUnicode(false);
-
             modelBuilder.Entity<Teacher>()
                 .Property(e => e.Name)
                 .IsUnicode(false);
@@ -81,6 +88,18 @@ namespace ELearnerApp
             modelBuilder.Entity<Teacher>()
                 .Property(e => e.Email)
                 .IsUnicode(false);
+
+            //modelBuilder.Entity<BankAccount>()
+            //    .Property(b => b.Id)
+            //    .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+
+            //modelBuilder.Entity<BankAccount>()
+            //    .Property(b => b.Deposit)
+            //    .HasPrecision(10, 2);
+
+            //modelBuilder.Entity<Account>()
+            //    .HasRequired(b => b.BankAccount)
+            //    .WithRequiredPrincipal(b => b.Account);
         }
     }
 }

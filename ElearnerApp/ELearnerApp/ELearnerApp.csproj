@@ -41,8 +41,10 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -52,9 +54,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Account.cs" />
+    <Compile Include="BankAccount.cs" />
     <Compile Include="Course.cs" />
     <Compile Include="ElearnerDataLayoutActions.cs" />
     <Compile Include="ElearnerContext.cs" />
+    <Compile Include="Form1.cs" />
+    <Compile Include="Form1.Designer.cs">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\201705241800330_InitialState.cs" />
     <Compile Include="Migrations\201705241800330_InitialState.Designer.cs">
       <DependentUpon>201705241800330_InitialState.cs</DependentUpon>
@@ -62,6 +69,30 @@
     <Compile Include="Migrations\201705241809167_AddAutoIncreamentToAccountId.cs" />
     <Compile Include="Migrations\201705241809167_AddAutoIncreamentToAccountId.Designer.cs">
       <DependentUpon>201705241809167_AddAutoIncreamentToAccountId.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201705250916367_RemoveEmailFromStudentTable.cs" />
+    <Compile Include="Migrations\201705250916367_RemoveEmailFromStudentTable.Designer.cs">
+      <DependentUpon>201705250916367_RemoveEmailFromStudentTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201705250932379_StudentIdAndTeacherIdChangeIdentity.cs" />
+    <Compile Include="Migrations\201705250932379_StudentIdAndTeacherIdChangeIdentity.Designer.cs">
+      <DependentUpon>201705250932379_StudentIdAndTeacherIdChangeIdentity.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201705251241400_changeNameContentsToContentsPath.cs" />
+    <Compile Include="Migrations\201705251241400_changeNameContentsToContentsPath.Designer.cs">
+      <DependentUpon>201705251241400_changeNameContentsToContentsPath.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201705251306448_AddBankAccountTableToDb.cs" />
+    <Compile Include="Migrations\201705251306448_AddBankAccountTableToDb.Designer.cs">
+      <DependentUpon>201705251306448_AddBankAccountTableToDb.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201705251313343_ChangeAccountIdName.cs" />
+    <Compile Include="Migrations\201705251313343_ChangeAccountIdName.Designer.cs">
+      <DependentUpon>201705251313343_ChangeAccountIdName.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201705260857549_ChangeStudentTableProperties.cs" />
+    <Compile Include="Migrations\201705260857549_ChangeStudentTableProperties.Designer.cs">
+      <DependentUpon>201705260857549_ChangeStudentTableProperties.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Program.cs" />
@@ -74,11 +105,32 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Form1.resx">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201705241800330_InitialState.resx">
       <DependentUpon>201705241800330_InitialState.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201705241809167_AddAutoIncreamentToAccountId.resx">
       <DependentUpon>201705241809167_AddAutoIncreamentToAccountId.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201705250916367_RemoveEmailFromStudentTable.resx">
+      <DependentUpon>201705250916367_RemoveEmailFromStudentTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201705250932379_StudentIdAndTeacherIdChangeIdentity.resx">
+      <DependentUpon>201705250932379_StudentIdAndTeacherIdChangeIdentity.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201705251241400_changeNameContentsToContentsPath.resx">
+      <DependentUpon>201705251241400_changeNameContentsToContentsPath.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201705251306448_AddBankAccountTableToDb.resx">
+      <DependentUpon>201705251306448_AddBankAccountTableToDb.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201705251313343_ChangeAccountIdName.resx">
+      <DependentUpon>201705251313343_ChangeAccountIdName.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201705260857549_ChangeStudentTableProperties.resx">
+      <DependentUpon>201705260857549_ChangeStudentTableProperties.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -13,15 +13,16 @@ namespace ELearnerApp
 
             using (ElearnerContext dbContext = new ElearnerContext())
             {
-                var account = dbContext.Accounts.Single(a => a.Id == 5);
+                //ElearnerDataLayoutActions.SignUp("Iasonas", "Stamatopoulos", new DateTime(1991, 5, 7), "iasonas@stamat.gr", "400", dbContext);
+                //bool result = ElearnerDataLayoutActions.Login("iasonas@stadmat.gr", "400", dbContext);
 
-                dbContext.Accounts.Attach(account);
-                ElearnerDataLayoutActions.RemoveObjectToDb(account);
 
+                var student = (from s in dbContext.Students select s).First();
+                Console.WriteLine(student);
             }
-                Console.ReadKey();
 
-            
+            Console.WriteLine("Press a key to continue...");
+            Console.ReadKey();
         }
     }
 }

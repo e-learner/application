@@ -30,5 +30,10 @@ namespace ELearnerApp
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Teacher> Teachers { get; set; }
+
+        public override string ToString ()
+        {
+            return $"Account with id: {Id} email: { Email} password: {Password}";
+        }
     }
 }
