@@ -1,0 +1,45 @@
+
+/* header styles */
+header .logodiv 
+{
+	height: 100px;
+}
+
+.logodiv div:nth-child(1) span{
+   color: purple;
+   font-weight: bold;
+}
+.logodiv div:nth-child(2) {
+       font-size: 3em;
+       padding-top: 25px;
+       
+}
+
+header .logodiv span
+ {padding-left: 20px;}
+
+
+ header .subscribe
+ { padding: 20px; }
+
+ /* nav-bar */
+
+/* carousel */
+
+/* popular courses */
+h1.popular
+{ 
+	text-align: center;
+	color: tomato; 
+}
+
+
+/* footer */
+footer 
+{ 
+	height: 100px;
+	background-image: url("footer.jpg");
+	color: white;
+ }
+ footer p 
+ {padding-top: 10px;}
