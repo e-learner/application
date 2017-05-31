@@ -1,0 +1,63 @@
+﻿@model ElearnerApp.ViewModels.SearchViewModel
+@{
+    ViewBag.Title = "SearchResult";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Search Results</h2>
+@if (Model.Search().Count == 0)
+{
+    <h2><b>Nothing Found!!</b></h2>
+}
+
+@foreach (var course in Model.SearchResults)
+{
+    
+        string imageFileName = ElearnerApp.Utilities.FileTools.RemoveSpacesFromFilename(course.Name) + ".png";
+    
+
+    <div class="container">
+        <div class="page-header">
+            <a href=@Url.Action("CourseView", "Courses",new { id = course.Id })><h1>@course.Name</h1></a>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-2">
+                    <table class="table">
+                        <tr class="text-center">
+                            <td>
+                                <a href=@Url.Action("CourseView", "Courses",new { id = course.Id })><img src="~/Content/images/@imageFileName" alt="logo"></a>
+                            </td>
+                        </tr>
+                        <tr class="text-center">
+                            <td>@course.Teacher.Name @course.Teacher.Lastname</td>  <!--TODO-->
+                        </tr>
+                        <tr class="text-center">
+                            <td>@course.Price &euro;</td>
+                        </tr>
+                        <tr class="text-center">
+                            <td>@course.Duration hours</td>
+                        </tr>
+                        <tr class="text-center">
+                            <td>Rating/5</td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="col-lg-10">
+                    <p>
+                        @course.Content.TextContent  <!--TODO-->
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br />
+}
+
+
+
+
+
+
+
+

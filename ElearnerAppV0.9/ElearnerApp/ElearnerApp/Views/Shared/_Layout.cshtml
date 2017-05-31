@@ -1,0 +1,32 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - ELearnerApp</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body>
+     @*@Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })*@ 
+    @Html.Partial("_Header");
+    <div class="container body-content">
+        @RenderBody()
+    </div>
+
+        <footer class="modal-footer">
+            <div class="container-fluid">
+                <div class="text-center">
+                    <p>Call us toll-free at <span class="phone">210-0000000</span></p>
+                    <p>All contents &copy; 2017. All rights reserved.</p>
+                </div>
+             </div>
+        </footer>
+   
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>
+ 

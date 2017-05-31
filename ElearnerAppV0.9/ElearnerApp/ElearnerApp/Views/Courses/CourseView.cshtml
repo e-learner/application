@@ -1,0 +1,79 @@
+﻿@model ElearnerApp.Models.Course
+@{
+    ViewBag.Title = "CourseView";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@{ 
+    string imageFileName = ElearnerApp.Utilities.FileTools.RemoveSpacesFromFilename(Model.Name) + ".png";
+    ElearnerApp.Models.Student currentLoggedInUser = ElearnerApp.Models.AppManager.LoggedInUser;
+    List<ElearnerApp.ViewModels.CommentViewModel> comments = ElearnerApp.Utilities.ElearnerDataLayoutActions.GetCourseComments(Model.Id);
+    string buttonDisabled = currentLoggedInUser == null ? "disabled" : null;
+}
+<div class="container">
+    <div class="page-header">
+        <h1>@Model.Name</h1>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-2">
+                <table class="table">
+                    <tr class="text-center">
+                    <td>
+                        <img src="~/Content/images/@imageFileName" alt="C#">
+                    </td>
+                    </tr>
+                    <tr class="text-center">
+                        <td>@Model.Teacher.Name @Model.Teacher.Lastname</td>
+                    </tr>
+                    <tr class="text-center">
+                        <td>@Model.Price &euro;</td>
+                    </tr>
+                    <tr class="text-center">
+                        <td>@Model.Duration hours</td>
+                    </tr>
+                    <tr class="text-center">
+                        <td>Rating/5</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-10">
+                <p>
+                    @Model.Content.TextContent
+                </p>
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-lg-6 col-lg-offset-6">
+                <a class="btn btn-lg btn-primary @buttonDisabled" href="@Url.Action("Content","Courses", new { id = Model.Id})" role="button">View Course</a>
+                <a class="btn btn-lg btn-success @buttonDisabled" href="@Url.Action("Purchase", new { id = Model.Id, name = Model.Name, duration = Model.Duration, price = Model.Price, teacherId = Model.TeacherId })" role="button">Purchase <span class="glyphicon glyphicon-usd" aria-hidden="true"></span></a>
+            </div>
+        </div>
+        <div class="row">
+            <h2 class="text-center"> Student's Comments</h2>
+            <hr />
+        </div>
+        @{
+            for (int i = 0; i < comments.Count; i+=2)
+            {
+                <div class="row">
+                    <div class="col-lg-6">
+                        <h4 style="border-bottom:1px solid blue">@comments[i].StudentName</h4>
+                        <p>@comments[i].Comment</p>
+                    </div>
+                    @{
+                        if (i+1 < comments.Count)
+                        {
+                            <div class="col-lg-6">
+                                <h4 style="border-bottom:1px solid blue">@comments[i + 1].StudentName</h4>
+                                <p>@comments[i + 1].Comment</p>
+                            </div>
+                        }
+                    }
+                    
+                </div>
+            }
+        }
+    </div>
+</div>
+

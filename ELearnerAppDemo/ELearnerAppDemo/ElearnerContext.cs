@@ -19,6 +19,7 @@ namespace ELearnerAppDemo
         public virtual DbSet<Student> Students { get; set; }
         public virtual DbSet<Teacher> Teachers { get; set; }
         public virtual DbSet<Subscription> Subscriptions { get; set; }
+        public virtual DbSet<BankAccount> BankAccounts { get; set; }
 
         protected override void OnModelCreating (DbModelBuilder modelBuilder)
         {
@@ -110,6 +111,19 @@ namespace ELearnerAppDemo
             modelBuilder.Entity<Subscription>()
                 .Property(e => e.Comment)
                 .IsUnicode(false);
+
+            modelBuilder.Entity<BankAccount>()
+                .Property( b => b.Deposit)
+                .HasPrecision(10, 2);
+
+            modelBuilder.Entity<BankAccount>()
+                .Property(b => b.AccountId)
+                .IsRequired()
+                .HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
+
+            modelBuilder.Entity<Account>()
+                .HasRequired(b => b.BankAccount)
+                .WithRequiredPrincipal(b => b.Account);
         }
     }
 }

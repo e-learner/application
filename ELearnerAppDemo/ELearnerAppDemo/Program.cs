@@ -10,6 +10,7 @@ namespace ELearnerAppDemo
     {
         static void Main (string[] args)
         {
+            Console.WriteLine(ElearnerDataLayoutActions.Login("ji3m@theo.gr", "700"));
         }
     }
 }
