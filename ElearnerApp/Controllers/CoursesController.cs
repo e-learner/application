@@ -65,7 +65,8 @@ namespace ElearnerApp.Controllers
             var contentVM = new ContentViewModel
             {
                 Course = result,
-                Content = result.Content
+                Content = result.Content,
+                Subscription = new Subscription()
             };
             return View(contentVM);
         }
@@ -73,29 +74,36 @@ namespace ElearnerApp.Controllers
         [HttpPost]
         public ActionResult Content(ContentViewModel contentVM)
         {
-            //var subscription = contentVM.Subscription;
+            var comment = contentVM.Subscription.Comment;
+            var rating = contentVM.Subscription.Rate;
+            
             using (ElearnerContext dbContext = new ElearnerContext())
             {
 
-                //dbContext.Tests.Add(test);
-
-                if (!String.IsNullOrEmpty("df"))
+                if (!String.IsNullOrEmpty(comment))
                 {
+                    //This method finds entity by primary key. If you have composite primary key, then pass key values in the order they defined in model:
+                    // var sub = dbContext.Subscriptions.Find(course.Id, 9);
 
-      
-                    var subscription = new Subscription
-                    {
-                        CourseId = 5,
-                        StudentId = 5,
-                        Comment = "kati"
+                    var subscriptionInDB = dbContext.Subscriptions.Find(2, 9);
 
-                    };
-                    dbContext.Subscriptions.Add(subscription);
+                    //.Where(x => x.CourseId == course.Id)
+                    //.Update(p => new Person()
+                    //{
+                    //    Name = newName,
+                    //    EditCount = p.EditCount + 1
+                    //});
+
+
+                    subscriptionInDB.Comment = comment;
+                    subscriptionInDB.Rate = rating;
                     dbContext.SaveChanges();
-                    return Content("Success");
+                    return RedirectToAction("Content", "Courses");
                 }
+                else
+                    return Content("NoAction");
             }
-            return Content("NoAction");
+            
         }
 
 

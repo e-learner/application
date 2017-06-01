@@ -59,14 +59,36 @@ footer {
 }
 
 
-.embed {
+/* Content Page*/
+
+.contentPage section {
+    margin-bottom: 10px;
+}
+
+.contentPage .embed {
     min-width: 50%;
+}
+
+
+.contentPage .active .unchecked {
+    display: inline-block;
+}
+
+.contentPage textarea {
+    margin: 0 auto;
+    min-width: 90%;
+    height: 70%;
 }
 
 #quiz {
     margin: 20px auto !important;
     display: inline-block;
 }
+
+
+
+
+
 
 .field-validation-error {
     color: red;
@@ -75,3 +97,5 @@ footer {
 .input-validation-error {
     border: 2px solid red;
 }
+
+

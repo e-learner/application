@@ -10,6 +10,8 @@ namespace ElearnerApp.ViewModels
     {
         public Content Content { get; set; }
         public Course Course { get; set; }
+
         public Subscription Subscription { get; set; }
+
     }
 }
