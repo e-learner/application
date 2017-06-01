@@ -1,12 +1,23 @@
-﻿@model String
+﻿@model ElearnerApp.ViewModels.PurchaseViewModel
 @{
     ViewBag.Title = "Purchase";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    string imageFileName = ElearnerApp.Utilities.FileTools.RemoveSpacesFromFilename(Model.SelectedCourse.Name) + ".png";
 }
 
 <h2 class="text-center">Purchase Results</h2>
 <hr />
-<p class="text-center">@Model</p>
-<a class="btn btn-lg btn-primary text-center" href="#" role="button">View Course</a>
-<a class="btn btn-lg btn-success text-center" href="@Url.Action("Content", "Courses", new {id = 4 })" role="button">View Course</a>
+<div class="container">
+    <div class="row">
+        <div class="col-lg-4">
+            <img src="~/Content/images/@imageFileName" alt="@imageFileName" />
+            <p>Price: @Model.SelectedCourse.Price &euro;</p>
+        </div>
+        <div class="col-lg-6" >
+            <p class="text-center">@Model.ResultMessase</p>
+            <a class="btn btn-lg btn-success" href="@Url.Action("Content", "Courses", new { id = Model.SelectedCourse.Id })" role="button">View Course</a>
+        </div>
+    </div>
+</div>
+
 

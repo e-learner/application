@@ -24,14 +24,28 @@ namespace ElearnerApp.Controllers
 
         public ActionResult Purchase(Course current)
         {
-            Account logInUser = (Account)Session[UserType.LoggedInUser.ToString()];
-            if (logInUser == null)
-                return View((object)"You must Sign Up First!");
+            ViewData["LogInFirst"] = false;
 
-            string result = ElearnerDataLayoutActions.PurchaseCourse(current.Id, logInUser.Id, current.Price);
+            if (Session[UserType.LoggedInUser.ToString()] == null)
+            {
+                ViewData["LogInFirst"] = true;
+                return RedirectToAction("LogIn", "Authedication");
+            }
+
+            PurchaseViewModel purchaseViewModel = new PurchaseViewModel();
+            Account logInUser = (Account)Session[UserType.LoggedInUser.ToString()];
+
+            if (logInUser == null)
+            {
+                purchaseViewModel.ResultMessase = "You must Sign Up First!";
+                return View(purchaseViewModel);
+            }
+
+            purchaseViewModel.ResultMessase = ElearnerDataLayoutActions.PurchaseCourse(current.Id, logInUser.Id, current.Price);
+            purchaseViewModel.SelectedCourse = current;
             logInUser.BankAccount.Deposit = ElearnerDataLayoutActions.UpdateUserDeposit(logInUser.Id);
 
-            return View((object)result);
+            return View(purchaseViewModel);
         }
 
         public ActionResult Index()
@@ -41,6 +55,14 @@ namespace ElearnerApp.Controllers
         
         public ActionResult Content (int id)
         {
+            ViewData["LogInFirst"] = false;
+
+            if (Session[UserType.LoggedInUser.ToString()] == null)
+            {
+                ViewData["LogInFirst"] = true;
+                return RedirectToAction("LogIn", "Authedication");
+            }
+
             Course result = ElearnerDataLayoutActions.GetContent(id);
 
             return View(result);
@@ -90,6 +112,14 @@ namespace ElearnerApp.Controllers
             }
 
             return View(vm);
+        }
+
+
+        //TODO: Under Constaction!
+        private void _RedirectAnauthorizedUser()
+        {
+            //if (Session[UserType.LoggedInUser.ToString()] == null)
+            //    return new  RedirectResult("LogIn", "Authedication");
         }
     }
 }

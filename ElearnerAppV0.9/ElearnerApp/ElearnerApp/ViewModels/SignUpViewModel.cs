@@ -14,6 +14,7 @@ namespace ElearnerApp.ViewModels
         public BankAccount UserBankAccount { get; set; }
 
         [Required]
+        //TODO: compare passwords!
         //[Compare("UserAccount.Password")]
         public string ConfirmationPassword { get; set; }
 

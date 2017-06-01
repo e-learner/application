@@ -20,9 +20,15 @@
                 }
                 else
                 {
-                    <p>@logInUser.Student.Name @logInUser.Student.Lastname @logInUser.BankAccount.Deposit&euro;</p>
+                    <div class="btn-group" role="group">
+                        <button type="button" class="btn btn-default">
+                            <span class="glyphicon glyphicon-user" aria-hidden="true"></span><a href=@Url.Action("Subscriptions", "Home", new {id = logInUser.Id})>@logInUser.Student.Name @logInUser.Student.Lastname</a>
+                        </button>
+                        <button type="button" class="btn btn-default">
+                            @logInUser.BankAccount.Deposit&euro;
+                        </button>
+                    </div>
                     <a href=@Url.Action("LogOut", "Authedication") class="btn btn-primary" role="button">Log Out</a>
-
                 }
             }
         </div>

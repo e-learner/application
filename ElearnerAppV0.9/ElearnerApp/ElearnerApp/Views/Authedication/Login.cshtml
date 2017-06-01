@@ -13,6 +13,11 @@
             {
                 <h3 style="color:red">Account does not exists!</h3>
             }
+            @*else if ((Boolean)ViewData["LogInFirst"])
+            {
+                <h3 style="color:red">You have to Log In First</h3>
+                ViewData["LogInFirst"] = false;
+            }*@
         }
         @Html.AntiForgeryToken()    @*this is to prevent CSRF attack*@
 
