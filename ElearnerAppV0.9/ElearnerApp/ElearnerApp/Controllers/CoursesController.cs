@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -14,21 +15,25 @@ namespace ElearnerApp.Controllers
         // GET: Courses
         public ActionResult CourseView(int id)
         {
-            Course queryResult = ElearnerDataLayoutActions.GetCourseFromDb(id, null);
+            Course queryResult = null;
+
+            queryResult = ElearnerDataLayoutActions.GetCourseFromDb(id, null);
+
             return View(queryResult);
         }
 
         public ActionResult Purchase(Course current)
         {
-            if (AppManager.LoggedInUser == null)
-                return Content("You must Sign Up First!");
+            Account logInUser = (Account)Session[UserType.LoggedInUser.ToString()];
+            if (logInUser == null)
+                return View((object)"You must Sign Up First!");
 
-            string result = ElearnerDataLayoutActions.PurchaseCourse(current.Id, AppManager.LoggedInUser, current.Price);
+            string result = ElearnerDataLayoutActions.PurchaseCourse(current.Id, logInUser.Id, current.Price);
+            logInUser.BankAccount.Deposit = ElearnerDataLayoutActions.UpdateUserDeposit(logInUser.Id);
 
-            return Content(result);
+            return View((object)result);
         }
 
-        [HttpGet]
         public ActionResult Index()
         {
             return View();
@@ -40,7 +45,6 @@ namespace ElearnerApp.Controllers
 
             return View(result);
         }
-
         
         public ActionResult Quiz (int Id)
         {
@@ -59,6 +63,7 @@ namespace ElearnerApp.Controllers
             }
 
         }
+
         [HttpPost]
         public ActionResult QuizResults (QuizViewModel vm)
         {

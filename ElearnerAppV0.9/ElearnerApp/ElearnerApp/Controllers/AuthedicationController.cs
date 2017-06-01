@@ -35,8 +35,11 @@ namespace ElearnerApp.Controllers
             
             return View("SuccessfulSignUp");
         }
+
         public ActionResult Login ()
         {
+            ViewData["wrongAuthedication"] = false;
+
             return View();
         }
 
@@ -50,16 +53,24 @@ namespace ElearnerApp.Controllers
                 return View("Login");
             }
 
-            Account result = ElearnerDataLayoutActions.Login(account.Email, account.Password);
+            Account result = ElearnerDataLayoutActions.HasAccount(account.Email, account.Password);
 
             if (result == null)
             {
+                ViewData["wrongAuthedication"] = true;
                 return View(account);
             }
 
-            Session["LogInUser"] = result;
-            //return RedirectToAction("Index", "Courses");
-            return Content(((Account)Session["LogInUser"]).ToString());
+            Session[UserType.LoggedInUser.ToString()] = result;
+            return RedirectToAction("Index", "Home");
+            //return Content(((Account)Session[UserType.LoggedInUser.ToString()]).ToString());
+        }
+
+        public ActionResult LogOut()
+        {
+            Session[UserType.LoggedInUser.ToString()] = null;
+
+            return RedirectToAction("Index", "Home");
         }
     }
 }

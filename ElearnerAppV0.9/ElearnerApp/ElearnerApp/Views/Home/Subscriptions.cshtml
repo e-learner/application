@@ -1,0 +1,14 @@
+﻿@using System.Collections.Generic
+@model IList<ElearnerApp.Models.Subscription>
+@{
+    ViewBag.Title = "Subscriptions";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Subscriptions</h2>
+@{
+    foreach (var item in Model)
+    {
+        <p>@item.Course.Name</p>
+    }
+}

@@ -1,8 +1,12 @@
-﻿
+﻿@model String
 @{
     ViewBag.Title = "Purchase";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2></h2>
+<h2 class="text-center">Purchase Results</h2>
+<hr />
+<p class="text-center">@Model</p>
+<a class="btn btn-lg btn-primary text-center" href="#" role="button">View Course</a>
+<a class="btn btn-lg btn-success text-center" href="@Url.Action("Content", "Courses", new {id = 4 })" role="button">View Course</a>
 

@@ -129,11 +129,11 @@ namespace ElearnerApp.Utilities
             }
         }
 
-        public static Account Login (string email, string password)
+        public static Account HasAccount (string email, string password)
         {
             using (ElearnerContext dbContext = new ElearnerContext())
             {
-                Account result = dbContext.Accounts.Include(s => s.Student).FirstOrDefault(a => a.Email == email);
+                Account result = dbContext.Accounts.Include(s => s.Student).Include(b => b.BankAccount).FirstOrDefault(a => a.Email == email);
 
                 if (result != null)
                 {
@@ -162,18 +162,18 @@ namespace ElearnerApp.Utilities
             }
         }
 
-        public static string PurchaseCourse (int courseId, Student student, decimal courseCost)
+        public static string PurchaseCourse (int courseId, int accountid, decimal courseCost)
         {
             using (ElearnerContext dbContext = new ElearnerContext())
             {
                 Subscription dbRecord = dbContext.Subscriptions
                     .Where(c => c.CourseId == courseId)
-                    .Where(s => s.StudentId == student.AccountId)
+                    .Where(s => s.StudentId == accountid)
                     .FirstOrDefault();
                 if (dbRecord != null)
                     return "Course already has purchased!";
 
-                BankAccount currentUserDeposit = dbContext.BankAccounts.Where(b => b.AccountId == student.AccountId).FirstOrDefault();
+                BankAccount currentUserDeposit = dbContext.BankAccounts.Where(b => b.AccountId == accountid).FirstOrDefault();
 
                 if (currentUserDeposit.Deposit < courseCost)
                 {
@@ -183,7 +183,7 @@ namespace ElearnerApp.Utilities
                 currentUserDeposit.Deposit -= courseCost;
                 dbContext.SaveChanges();
 
-                dbContext.Subscriptions.Add(new Subscription { CourseId = courseId, StudentId = student.AccountId });
+                dbContext.Subscriptions.Add(new Subscription { CourseId = courseId, StudentId = accountid });
                 dbContext.SaveChanges();
 
                 return "Course is successfully purchased!";
@@ -202,9 +202,10 @@ namespace ElearnerApp.Utilities
                     .Select(x => new {Comment = x.Comment, StudentName = x.Student.Name+" "+ x.Student.Lastname, Grade = x.Grade } )
                     .ToList();
 
-                foreach (var item in results)
+                foreach (var result in results)
                 {
-                    comments.Add(new CommentViewModel() { Comment = item.Comment, StudentName = item.StudentName, Grade = item.Grade });
+                    if (!string.IsNullOrWhiteSpace(result.Comment))
+                        comments.Add(new CommentViewModel() { Comment = result.Comment, StudentName = result.StudentName, Grade = result.Grade });
                 }
             }
 
@@ -231,6 +232,40 @@ namespace ElearnerApp.Utilities
             }
         }
 
+        public static IList<Subscription> GetStudentSubscriptions(int studentId)
+        {
+            IList<Subscription> subscriptions;
+            using (ElearnerContext dbContext = new ElearnerContext())
+            {
+                subscriptions = dbContext.Subscriptions.Where(x => x.StudentId == studentId).Include(x => x.Course).ToList();
+            }
+            return subscriptions;
+        }
+
+        public static bool HasStudentThisCourse(int studentId, int CourseId)
+        {
+            bool result;
+            using (ElearnerContext dbContent = new ElearnerContext())
+            {
+                result = dbContent.Subscriptions
+                    .Where(x => x.StudentId == studentId)
+                    .Where(x => x.CourseId == CourseId)
+                    .FirstOrDefault() != null ? true : false;  
+            }
+
+            return result;
+        }
+
+        public static decimal UpdateUserDeposit(int accountId)
+        {
+            decimal deposit;
+            using (ElearnerContext dbContext = new ElearnerContext())
+            {
+                deposit = dbContext.BankAccounts.Where(b => b.AccountId == accountId).Select(d => d.Deposit).FirstOrDefault();
+            }
+
+            return deposit;
+        }
 
         //Dummy
         public void Method()

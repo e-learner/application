@@ -12,7 +12,6 @@ namespace ElearnerApp.Controllers
     {
         public ActionResult Index ()
         {
-
             return View();
         }
 
@@ -29,5 +28,13 @@ namespace ElearnerApp.Controllers
 
             return View();
         }
+
+        public ActionResult Subscriptions (int id)
+        {
+            IList<Subscription> subscriptions = ElearnerDataLayoutActions.GetStudentSubscriptions(id);
+
+            return View(subscriptions);
+        }
+
     }
 }

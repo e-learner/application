@@ -1,6 +1,5 @@
-﻿@{ 
-    ElearnerApp.Models.Student currentUser = ElearnerApp.Models.AppManager.LoggedInUser;
-}
+﻿@using ElearnerApp.Models
+@using ElearnerApp.Utilities
 <header class="container-fluid">
     <div class="row logodiv">
         <div class="col-lg-4 col-sm-4 col-xs-2 col-xs-6">
@@ -13,16 +12,17 @@
         </div>
         <div class="col-lg-2 col-sm-2 col-xs-6 subscribe">
             @{
-
-                if (currentUser == null)
+                Account logInUser = (Account)Session[UserType.LoggedInUser.ToString()];
+                if (logInUser == null)
                 {
                     <a href="@Url.Action("LogIn", "Authedication")" class="btn btn-info" role="button">Log in </a>
                     <a href=@Url.Action("SignUpForm", "Authedication") class="btn btn-primary" role="button">Sign Up</a>
                 }
                 else
                 {
-                    <p>@currentUser.Name @currentUser.Lastname Money&euro;</p>
-                    <button onclick="LogoutUser()">Sign Out</button>
+                    <p>@logInUser.Student.Name @logInUser.Student.Lastname @logInUser.BankAccount.Deposit&euro;</p>
+                    <a href=@Url.Action("LogOut", "Authedication") class="btn btn-primary" role="button">Log Out</a>
+
                 }
             }
         </div>
@@ -48,9 +48,4 @@
             </div> <!-- container -->
         </nav>
     </div>
-    <script>
-        function LogoutUser() {
-            @currentUser = null;
-        }
-    </script>
 </header>

@@ -3,15 +3,17 @@
     ViewBag.Title = "Login";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-
-
 @using (Html.BeginForm("LogIn", "Authedication", FormMethod.Post))
 {
 
     <div class="form-horizontal">
         <h2>Login</h2> <br />
-
+        @{ 
+            if ((Boolean)ViewData["wrongAuthedication"])
+            {
+                <h3 style="color:red">Account does not exists!</h3>
+            }
+        }
         @Html.AntiForgeryToken()    @*this is to prevent CSRF attack*@
 
         <div class="form-group">
@@ -31,8 +33,8 @@
          </div>
 
             @if (ViewBag.NotMatching == true)
-                 {
-                     <p class="">Email and Password don't match!</p>
-                 }
+            {
+                <p class="">Email and Password don't match!</p>
+            }
         </div>
  }
