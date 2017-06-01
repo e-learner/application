@@ -62,7 +62,7 @@ namespace ElearnerApp.Controllers
             }
 
             Session[UserType.LoggedInUser.ToString()] = result;
-            return RedirectToAction("LogIn", "Authentication"); 
+            return RedirectToAction("Index", "Home"); 
             //return Content(((Account)Session[UserType.LoggedInUser.ToString()]).ToString());
         }
 

@@ -62,8 +62,43 @@ namespace ElearnerApp.Controllers
 
             Course result = ElearnerDataLayoutActions.GetContent(id);
 
-            return View(result);
+            var contentVM = new ContentViewModel
+            {
+                Course = result,
+                Content = result.Content
+            };
+            return View(contentVM);
         }
+
+        [HttpPost]
+        public ActionResult Content(ContentViewModel contentVM)
+        {
+            //var subscription = contentVM.Subscription;
+            using (ElearnerContext dbContext = new ElearnerContext())
+            {
+
+                //dbContext.Tests.Add(test);
+
+                if (!String.IsNullOrEmpty("df"))
+                {
+
+      
+                    var subscription = new Subscription
+                    {
+                        CourseId = 5,
+                        StudentId = 5,
+                        Comment = "kati"
+
+                    };
+                    dbContext.Subscriptions.Add(subscription);
+                    dbContext.SaveChanges();
+                    return Content("Success");
+                }
+            }
+            return Content("NoAction");
+        }
+
+
 
 
         public ActionResult Quiz (int Id)
