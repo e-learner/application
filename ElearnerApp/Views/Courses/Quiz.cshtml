@@ -1,0 +1,35 @@
+﻿@model ElearnerApp.ViewModels.QuizViewModel
+@{
+    ViewBag.Title = "Quiz";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@Model.Course.Name</h2>
+@using (Html.BeginForm("QuizResults", "Courses", FormMethod.Post))
+{
+    <div class="form-horizontal">
+
+        @for (int i = 0; i < Model.Questions.Count(); i++)
+        {
+            <div class="form-group">
+
+                <b>@Html.Label(Model.Questions[i].QuestionStr)</b><br>
+                   @Html.RadioButtonFor(m => m.Answers[i], (Model.Questions[i].Answer) ? true : false) True
+                   @Html.RadioButtonFor(m => m.Answers[i], (!Model.Questions[i].Answer) ? true : false) False
+            </div>
+        }
+
+            <div class="form-group">
+                <input type="submit" class="btn btn-primary" value="Submit">
+            </div>
+
+        <!--Metafora olwn twn properties tou Model sto Action QuizResults-->
+        <script>                               
+        $('form').submit(function() {
+        @{ TempData["FullModel"] = Model; }   
+        });
+        </script>
+
+        </div>
+    }
+

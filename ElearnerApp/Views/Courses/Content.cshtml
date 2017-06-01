@@ -1,0 +1,29 @@
+﻿@model ElearnerApp.Models.Course
+@{
+    ViewBag.Title = "Content";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+   
+    <h2>@Model.Name</h2>
+
+    <section>
+       @Model.Content.TextContent
+    </section>
+    <div class="row">
+        <div class="col-md-3"></div>
+        <div class="col-md-6">
+            <div class="embed-responsive embed-responsive-16by9 embed">
+                <iframe class="embed-responsive-item" src=@Model.Content.VideoUrl frameborder="0" allowfullscreen></iframe>
+            </div>
+        </div>
+          <div class="col-md-3"></div>
+        </div>
+    <div class="text-center">
+        <input type="button" class="btn btn-info" value="Quiz"
+               onclick="location.href='@Url.Action("Quiz", "Courses", new { Id = Model.Id })'" />
+    </div>
+   
+    
+</div>

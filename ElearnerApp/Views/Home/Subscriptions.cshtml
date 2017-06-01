@@ -1,0 +1,15 @@
+﻿@using System.Collections.Generic
+@model IList<ElearnerApp.Models.Subscription>
+@{
+    ViewBag.Title = "Subscriptions";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>My Subscriptions</h2>
+<hr />
+@{
+    foreach (var subscription in Model)
+    {
+        <p>&diams; <a href="@Url.Action("Content","Courses", new {id = subscription.CourseId })" class="btn btn-default btn-lg active" role="button">@subscription.Course.Name</a></p>
+    }
+}

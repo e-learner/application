@@ -1,0 +1,45 @@
+﻿@model ElearnerApp.Models.Account
+@{
+    ViewBag.Title = "Login";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using (Html.BeginForm("LogIn", "Authedication", FormMethod.Post))
+{
+
+    <div class="form-horizontal">
+        <h2>Login</h2> <br />
+        @{ 
+            if ((Boolean)ViewData["wrongAuthedication"])
+            {
+                <h3 style="color:red">Account does not exists!</h3>
+            }
+            @*else if ((Boolean)ViewData["LogInFirst"])
+            {
+                <h3 style="color:red">You have to Log In First</h3>
+                ViewData["LogInFirst"] = false;
+            }*@
+        }
+        @Html.AntiForgeryToken()    @*this is to prevent CSRF attack*@
+
+        <div class="form-group">
+            @Html.LabelFor(a => a.Email)
+            @Html.TextBoxFor(a => a.Email, new { @class = "form-control" })
+            @Html.ValidationMessageFor(a => a.Email, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(a => a.Password)
+            @Html.PasswordFor(a => a.Password, new { @class = "form-control" })
+            @Html.ValidationMessageFor(a => a.Password, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group">
+            <input type="submit" class="btn btn-primary" value="Log In">
+         </div>
+
+            @if (ViewBag.NotMatching == true)
+            {
+                <p class="">Email and Password don't match!</p>
+            }
+        </div>
+ }
