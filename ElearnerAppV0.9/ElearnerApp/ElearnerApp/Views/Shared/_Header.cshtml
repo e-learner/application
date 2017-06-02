@@ -25,7 +25,7 @@
                             <span class="glyphicon glyphicon-user" aria-hidden="true"></span><a href=@Url.Action("Subscriptions", "Home", new {id = logInUser.Id})>@logInUser.Student.Name @logInUser.Student.Lastname</a>
                         </button>
                         <button type="button" class="btn btn-default">
-                            @logInUser.BankAccount.Deposit&euro;
+                            <a href=@Url.Action("AddMoney", "Home", new {id = logInUser.Id})>@logInUser.BankAccount.Deposit&euro;</a> 
                         </button>
                     </div>
                     <a href=@Url.Action("LogOut", "Authedication") class="btn btn-primary" role="button">Log Out</a>
@@ -47,7 +47,7 @@
                     <ul class="nav navbar-nav" role="navigation">
                         <li class="active">@Html.ActionLink("Home", "Index", "Home")</li>
                         <li>@Html.ActionLink("Courses", "Index", "Courses")</li>
-                        <li>@Html.ActionLink("Teachers", "Index", "Teachers")</li>
+                        <li>@Html.ActionLink("Teachers", "Teachers", "Home")</li>
                         <li>@Html.ActionLink("About", "About", "Home")</li>
                     </ul>
                 </div>

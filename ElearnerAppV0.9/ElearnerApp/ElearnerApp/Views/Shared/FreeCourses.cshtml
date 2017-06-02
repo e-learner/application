@@ -1,0 +1,29 @@
+﻿@{
+    var freeCourses = ElearnerApp.Utilities.ElearnerDataLayoutActions.GetFreeCourses();
+    ElearnerApp.Models.Student currentLoggedInUser = ElearnerApp.Models.AppManager.LoggedInUser;
+    string buttonDisabled = currentLoggedInUser == null ? "disabled" : null;
+}
+
+<div class="container">
+    <h1 class="popular">Free Courses</h1>
+    <div class="row">
+        @for (int i = 0; i < 3; i++)
+        {
+            string imageFileName = ElearnerApp.Utilities.FileTools.RemoveSpacesFromFilename(freeCourses[i].Name) + ".png";
+
+            <div class="col-sm-6 col-md-4">
+                <div class="thumbnail">
+                    <a href=@Url.Action("CourseView", "Courses",new { id = freeCourses[i].Id })><img src="~/Content/images/@imageFileName" alt="logo"></a>
+                    <div class="caption">
+                        <a href=@Url.Action("CourseView", "Courses",new { id = freeCourses[i].Id })><h1>@freeCourses[i].Name</h1></a>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Doloribus unde mollitia amet eligendi repellat, placeat ipsum magni explicabo minima numquam labore voluptate excepturi quidem praesentium maiores nisi temporibus, quis id?</p>
+                        <p class="text-center">
+                            <a href="@Url.Action("Content","Courses", new { id = freeCourses[i].Id})" class="btn btn-lg btn-primary @buttonDisabled" role="button">View Course</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        }
+
+    </div>
+</div>

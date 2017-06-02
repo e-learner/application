@@ -13,9 +13,22 @@
             <img src="~/Content/images/@imageFileName" alt="@imageFileName" />
             <p>Price: @Model.SelectedCourse.Price &euro;</p>
         </div>
-        <div class="col-lg-6" >
+        <div class="col-lg-6">
             <p class="text-center">@Model.ResultMessase</p>
-            <a class="btn btn-lg btn-success" href="@Url.Action("Content", "Courses", new { id = Model.SelectedCourse.Id })" role="button">View Course</a>
+            @{
+                switch (Model.ResultMessase)
+                {
+                    case "Course already has purchased!":
+                        <a class="btn btn-lg btn-success" href="@Url.Action("Content", "Courses", new { id = Model.SelectedCourse.Id })" role="button">View Course</a>
+                        break;
+                    case "You dont have enough money!":
+                        <a class="btn btn-lg btn-info" href="@Url.Action("index", "Home")" role="button">Add money!</a>
+                        break;
+                    default:
+                        <p class="text-warning">Something went wrong!</p>
+                        break;
+                }
+            }
         </div>
     </div>
 </div>

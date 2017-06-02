@@ -7,7 +7,7 @@
     ViewBag.Title = "CourseView";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-@{ 
+@{
     string imageFileName = FileTools.RemoveSpacesFromFilename(Model.Name) + ".png";
     Account currentLoggedInUser = (Account)Session[UserType.LoggedInUser.ToString()];
     List<CommentViewModel> comments = ElearnerDataLayoutActions.GetCourseComments(Model.Id);
@@ -21,9 +21,9 @@
             <div class="col-lg-2">
                 <table class="table">
                     <tr class="text-center">
-                    <td>
-                        <img src="~/Content/images/@imageFileName" alt="C#">
-                    </td>
+                        <td>
+                            <img src="~/Content/images/@imageFileName" alt="C#">
+                        </td>
                     </tr>
                     <tr class="text-center">
                         <td>@Model.Teacher.Name @Model.Teacher.Lastname</td>
@@ -49,24 +49,25 @@
         <div class="row">
             <div class="col-lg-6 col-lg-offset-6">
                 @{
-                    if (currentLoggedInUser == null)
-                    {
-                        <a class="btn btn-lg btn-primary" href="@Url.Action("Login", "Authedication")" role="button">View Course</a>
-                        <a class="btn btn-lg btn-success" href="@Url.Action("Login", "Authedication")" role="button">Purchase <span class="glyphicon glyphicon-usd" aria-hidden="true"></span></a>
-                    }
-                    else
+                    if (currentLoggedInUser != null && Model.Price > 0) //Logged user and not free course
                     {
                         bool isPurchased = ElearnerDataLayoutActions.HasStudentThisCourse(currentLoggedInUser.Id, Model.Id);
-                        if (isPurchased)
-                        {
-                            <a class="btn btn-lg btn-primary" href="@Url.Action("Content", "Courses", new { id = Model.Id })" role="button">View Course</a>
-                            <a class="btn btn-lg btn-success disabled" href="@Url.Action("Purchase", new { id = Model.Id, name = Model.Name, duration = Model.Duration, price = Model.Price, teacherId = Model.TeacherId })" role="button">Purchase <span class="glyphicon glyphicon-usd" aria-hidden="true"></span></a>
-                        }
-                        else
-                        {
-                            <a class="btn btn-lg btn-primary disabled" href="@Url.Action("Content", "Courses", new { id = Model.Id })" role="button">View Course</a>
-                            <a class="btn btn-lg btn-success" href="@Url.Action("Purchase", new { id = Model.Id, name = Model.Name, duration = Model.Duration, price = Model.Price, teacherId = Model.TeacherId })" role="button">Purchase <span class="glyphicon glyphicon-usd" aria-hidden="true"></span></a>
-                        }
+
+                        string isDisabled = isPurchased ? "disabled" : null;
+                        <a class="btn btn-lg btn-success @isDisabled" href="@Url.Action("Purchase", new { id = Model.Id, name = Model.Name, duration = Model.Duration, price = Model.Price, teacherId = Model.TeacherId })" role="button">Purchase <span class="glyphicon glyphicon-usd" aria-hidden="true"></span></a>
+
+                        isDisabled = !isPurchased ? "disabled" : null;
+                        <a class="btn btn-lg btn-primary @isDisabled" href="@Url.Action("Content", "Courses", new { id = Model.Id })" role="button">View Course</a>
+                    }
+                    else if (Model.Price == 0) //Free course
+                    {
+                        <a class="btn btn-lg btn-primary" href="@Url.Action("Content", "Courses", new { id = Model.Id })" role="button">View Course</a>
+                    }
+                    else //guest user not free course
+                    {
+                        Session["LogInFirst"] = true;
+                        <a class="btn btn-lg btn-primary" href="@Url.Action("Login", "Authedication")" role="button">View Course</a>
+                        <a class="btn btn-lg btn-success" href="@Url.Action("Login", "Authedication")" role="button">Purchase <span class="glyphicon glyphicon-usd" aria-hidden="true"></span></a>
                     }
                 }
             </div>
@@ -95,13 +96,12 @@
                             }
                         }
                     </div>
-                }
-            }
-            else
-            {
-                <p class="text-center">These are no comments.</p>
-            }
-         }
+                                }
+                            }
+                            else
+                            {
+                                <p class="text-center">These are no comments.</p>
+                            }
+        }
     </div>
 </div>
-

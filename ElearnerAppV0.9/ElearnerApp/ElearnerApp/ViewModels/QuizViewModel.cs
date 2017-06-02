@@ -11,6 +11,7 @@ namespace ElearnerApp.ViewModels
         public Course Course { get; set; }
         public List<Question> Questions { get; set; }
         public List<bool> Answers { get; set; }
+
         
     }
 }

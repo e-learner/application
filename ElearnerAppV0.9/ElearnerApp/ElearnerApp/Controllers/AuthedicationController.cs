@@ -26,19 +26,21 @@ namespace ElearnerApp.Controllers
                 return View("SignUpForm");
             }
 
-            if (!ElearnerDataLayoutActions.SignUp(sendedModel.UserPersonalInfo.Name,sendedModel.UserPersonalInfo.Lastname,
+            Account result = ElearnerDataLayoutActions.SignUp(sendedModel.UserPersonalInfo.Name, sendedModel.UserPersonalInfo.Lastname,
                         sendedModel.UserPersonalInfo.Birthdate, sendedModel.UserAccount.Email,
-                        sendedModel.UserAccount.Password, sendedModel.UserBankAccount.Deposit))
+                        sendedModel.UserAccount.Password, sendedModel.UserBankAccount.Deposit);
+            if (result == null)
             {
                 return View("SignUpForm");
             }
-            
+
+            Session[UserType.LoggedInUser.ToString()] = result;
             return View("SuccessfulSignUp");
         }
 
-        public ActionResult Login ()
+        public ActionResult Login()
         {
-            ViewData["wrongAuthedication"] = false;
+            Session["wrongAuthedication"] = false;
 
             return View();
         }
@@ -46,7 +48,7 @@ namespace ElearnerApp.Controllers
         // method for post Log In
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Login (Account account)
+        public ActionResult Login(Account account)
         {
             if (!ModelState.IsValid)
             {
@@ -57,13 +59,13 @@ namespace ElearnerApp.Controllers
 
             if (result == null)
             {
-                ViewData["wrongAuthedication"] = true;
+                Session["wrongAuthedication"] = true;
                 return View(account);
             }
+            
 
             Session[UserType.LoggedInUser.ToString()] = result;
             return RedirectToAction("Index", "Home");
-            //return Content(((Account)Session[UserType.LoggedInUser.ToString()]).ToString());
         }
 
         public ActionResult LogOut()

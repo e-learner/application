@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -15,10 +14,7 @@ namespace ElearnerApp.Controllers
         // GET: Courses
         public ActionResult CourseView(int id)
         {
-            Course queryResult = null;
-
-            queryResult = ElearnerDataLayoutActions.GetCourseFromDb(id, null);
-
+            Course queryResult = ElearnerDataLayoutActions.GetCourseFromDb(id, null);
             return View(queryResult);
         }
 
@@ -48,26 +44,26 @@ namespace ElearnerApp.Controllers
             return View(purchaseViewModel);
         }
 
+        [HttpGet]
         public ActionResult Index()
         {
             return View();
         }
-        
-        public ActionResult Content (int id)
-        {
-            ViewData["LogInFirst"] = false;
 
-            if (Session[UserType.LoggedInUser.ToString()] == null)
+        public ActionResult Content(int id)
+        {
+            Course result = ElearnerDataLayoutActions.GetContent(id);
+            Session["LogInFirst"] = false;
+
+            if (Session[UserType.LoggedInUser.ToString()] == null && result.Price > 0)
             {
-                ViewData["LogInFirst"] = true;
+                Session["LogInFirst"] = true;
                 return RedirectToAction("LogIn", "Authedication");
             }
 
-            Course result = ElearnerDataLayoutActions.GetContent(id);
-
             return View(result);
         }
-        
+
         public ActionResult Quiz (int Id)
         {
             using (ElearnerContext dbContext = new ElearnerContext())
@@ -78,14 +74,14 @@ namespace ElearnerApp.Controllers
                 var viewModel = new QuizViewModel
                 {
                     Course = course,
-                    Questions = questions
+                    Questions = questions,
+                    
                 };
             
                 return View(viewModel);
             }
 
         }
-
         [HttpPost]
         public ActionResult QuizResults (QuizViewModel vm)
         {
@@ -112,14 +108,6 @@ namespace ElearnerApp.Controllers
             }
 
             return View(vm);
-        }
-
-
-        //TODO: Under Constaction!
-        private void _RedirectAnauthorizedUser()
-        {
-            //if (Session[UserType.LoggedInUser.ToString()] == null)
-            //    return new  RedirectResult("LogIn", "Authedication");
         }
     }
 }

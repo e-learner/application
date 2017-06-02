@@ -5,18 +5,17 @@
 }
 @using (Html.BeginForm("LogIn", "Authedication", FormMethod.Post))
 {
-
     <div class="form-horizontal">
         <h2>Login</h2> <br />
         @{ 
-            if ((Boolean)ViewData["wrongAuthedication"])
+            if ((Boolean)Session["wrongAuthedication"])
             {
                 <h3 style="color:red">Account does not exists!</h3>
             }
-            @*else if ((Boolean)ViewData["LogInFirst"])
+            @*else if ((Boolean)Session["LogInFirst"])
             {
-                <h3 style="color:red">You have to Log In First</h3>
-                ViewData["LogInFirst"] = false;
+                <h3 style="color:red">Log In first to view a Course!</h3>
+                Session["LogInFirst"] = false;
             }*@
         }
         @Html.AntiForgeryToken()    @*this is to prevent CSRF attack*@

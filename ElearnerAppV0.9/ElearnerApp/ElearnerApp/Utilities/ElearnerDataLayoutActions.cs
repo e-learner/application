@@ -84,15 +84,15 @@ namespace ElearnerApp.Utilities
         }
 
         //TODO: Return bool
-        public static bool SignUp (String name, string lastname, DateTime birthdate, string email, string password, Decimal deposit)
+        public static Account SignUp (String name, string lastname, DateTime birthdate, string email, string password, Decimal deposit)
         {
             using (ElearnerContext dbContext = new ElearnerContext())
             {
                 if (String.IsNullOrWhiteSpace(name) || String.IsNullOrWhiteSpace(lastname) 
                     || String.IsNullOrWhiteSpace(email) || String.IsNullOrWhiteSpace(password) || birthdate == null || deposit < 0)
-                    return false;
+                    return null;
                 else if (dbContext.Accounts.FirstOrDefault(a => a.Email == email) != null)
-                    return false;
+                    return null;
 
                 Account accountRecord = new Account()
                 {
@@ -125,11 +125,16 @@ namespace ElearnerApp.Utilities
                 dbContext.BankAccounts.Add(bankAccount);
                 dbContext.SaveChanges();
 
-                return true;
+                Account result = new Account();
+                result = accountRecord;
+                result.Student = studentRecord;
+                result.BankAccount = bankAccount;
+
+                return result;
             }
         }
 
-        public static Account HasAccount (string email, string password)
+        public static Account HasAccount(string email, string password)
         {
             using (ElearnerContext dbContext = new ElearnerContext())
             {
@@ -162,7 +167,7 @@ namespace ElearnerApp.Utilities
             }
         }
 
-        public static string PurchaseCourse (int courseId, int accountid, decimal courseCost)
+        public static string PurchaseCourse(int courseId, int accountid, decimal courseCost)
         {
             using (ElearnerContext dbContext = new ElearnerContext())
             {
@@ -177,7 +182,7 @@ namespace ElearnerApp.Utilities
 
                 if (currentUserDeposit.Deposit < courseCost)
                 {
-                    return "You dont have enough money!";
+                    return"You dont have enough money!";
                 }
 
                 currentUserDeposit.Deposit -= courseCost;
@@ -190,6 +195,55 @@ namespace ElearnerApp.Utilities
             }
         }
 
+        public static IList<Subscription> GetStudentSubscriptions(int studentId)
+        {
+            IList<Subscription> subscriptions;
+            using (ElearnerContext dbContext = new ElearnerContext())
+            {
+                subscriptions = dbContext.Subscriptions.Where(x => x.StudentId == studentId).Include(x => x.Course).ToList();
+            }
+            return subscriptions;
+        }
+
+        public static bool HasStudentThisCourse(int studentId, int CourseId)
+        {
+            bool result;
+            using (ElearnerContext dbContent = new ElearnerContext())
+            {
+                result = dbContent.Subscriptions
+                    .Where(x => x.StudentId == studentId)
+                    .Where(x => x.CourseId == CourseId)
+                    .FirstOrDefault() != null ? true : false;
+            }
+
+            return result;
+        }
+
+        public static decimal UpdateUserDeposit(int accountId)
+        {
+            decimal deposit;
+            using (ElearnerContext dbContext = new ElearnerContext())
+            {
+                deposit = dbContext.BankAccounts.Where(b => b.AccountId == accountId).Select(d => d.Deposit).FirstOrDefault();
+            }
+
+            return deposit;
+        }
+
+        public static decimal AddMoneyToUser(int accountId, decimal amount)
+        {
+            BankAccount bankAccount;
+            using (ElearnerContext dbContext = new ElearnerContext())
+            {
+                bankAccount = dbContext.BankAccounts.Where(b => b.AccountId == accountId).FirstOrDefault();
+                bankAccount.Deposit += amount;
+
+                dbContext.SaveChanges();
+            }
+
+            return bankAccount.Deposit;
+        }
+
         public static List<CommentViewModel> GetCourseComments (int courseId)
         {
             List<CommentViewModel> comments = new List<CommentViewModel>();
@@ -198,14 +252,14 @@ namespace ElearnerApp.Utilities
             {
                 var results = dbContent.Subscriptions
                     .Where(c => c.CourseId == courseId)
+                    .Where(c => c.Comment != null && c.Comment.Trim() !="")
                     .Include(s => s.Student)
                     .Select(x => new {Comment = x.Comment, StudentName = x.Student.Name+" "+ x.Student.Lastname, Grade = x.Grade } )
                     .ToList();
 
-                foreach (var result in results)
+                foreach (var item in results)
                 {
-                    if (!string.IsNullOrWhiteSpace(result.Comment))
-                        comments.Add(new CommentViewModel() { Comment = result.Comment, StudentName = result.StudentName, Grade = result.Grade });
+                    comments.Add(new CommentViewModel() { Comment = item.Comment, StudentName = item.StudentName, Grade = item.Grade });
                 }
             }
 
@@ -231,48 +285,40 @@ namespace ElearnerApp.Utilities
                 return course;
             }
         }
-
-        public static IList<Subscription> GetStudentSubscriptions(int studentId)
-        {
-            IList<Subscription> subscriptions;
-            using (ElearnerContext dbContext = new ElearnerContext())
-            {
-                subscriptions = dbContext.Subscriptions.Where(x => x.StudentId == studentId).Include(x => x.Course).ToList();
-            }
-            return subscriptions;
-        }
-
-        public static bool HasStudentThisCourse(int studentId, int CourseId)
-        {
-            bool result;
-            using (ElearnerContext dbContent = new ElearnerContext())
-            {
-                result = dbContent.Subscriptions
-                    .Where(x => x.StudentId == studentId)
-                    .Where(x => x.CourseId == CourseId)
-                    .FirstOrDefault() != null ? true : false;  
-            }
-
-            return result;
-        }
-
-        public static decimal UpdateUserDeposit(int accountId)
-        {
-            decimal deposit;
-            using (ElearnerContext dbContext = new ElearnerContext())
-            {
-                deposit = dbContext.BankAccounts.Where(b => b.AccountId == accountId).Select(d => d.Deposit).FirstOrDefault();
-            }
-
-            return deposit;
-        }
-
-        //Dummy
-        public void Method()
+        
+        public static List<Course> GetMostPopular()
         {
             using (ElearnerContext dbContext = new ElearnerContext())
             {
-                dbContext.Courses.Include(x => x.Subscriptions).GroupBy(x => x.Name);
+                var popularCourses = dbContext.Courses.SqlQuery("SELECT TOP 3 Id,Name,Duration,Price,TeacherId " +
+                                                                "FROM Courses INNER JOIN Subscriptions ON Courses.Id = Subscriptions.CourseId " +
+                                                                "GROUP BY Id,Name,Duration,Price,TeacherId " +
+                                                                "ORDER BY COUNT(Subscriptions.StudentId) DESC").ToList();
+                return popularCourses;
+            }
+            
+        }
+
+        public static List<Course> GetFreeCourses()
+        {
+            Random r = new Random();
+
+            using (ElearnerContext dbContext = new ElearnerContext())
+            {
+                var query = dbContext.Courses.Where(x => x.Price == 0).ToList();
+                List<Course> freeCourses = query.OrderBy(x => r.Next()).Take(3).ToList();
+
+                return freeCourses;
+            }
+        }
+
+        public static List<Teacher> GetTeachers()
+        {
+            using (ElearnerContext dbContext = new ElearnerContext())
+            {
+                List<Teacher> teacherList = dbContext.Teachers.ToList();
+
+                return teacherList;
             }
         }
     }
