@@ -83,7 +83,6 @@ namespace ElearnerApp.Utilities
             dbContext.SaveChanges();
         }
 
-        //TODO: Return bool
         public static Account SignUp (String name, string lastname, DateTime birthdate, string email, string password, Decimal deposit)
         {
             using (ElearnerContext dbContext = new ElearnerContext())
@@ -132,6 +131,25 @@ namespace ElearnerApp.Utilities
 
                 return result;
             }
+        }
+
+        public static Account SignUpTeacher(SignUpTeacherViewModel teacherViewModel)
+        {
+            Account createdTeacher;
+
+            if (teacherViewModel == null || string.IsNullOrWhiteSpace(teacherViewModel.TeacherAccount.Email) || string.IsNullOrWhiteSpace(teacherViewModel.TeacherAccount.Password) || teacherViewModel.TeacherAccount.BankAccount.Deposit < 0
+               || string.IsNullOrWhiteSpace(teacherViewModel.TeachingCourse.Name) || string.IsNullOrWhiteSpace(teacherViewModel.TeachingCourse.Description) || teacherViewModel.TeachingCourse.Duration < 0)
+                return null;
+
+            using (ElearnerContext dbContext = new ElearnerContext())
+            {
+                createdTeacher = dbContext.Accounts.Add(teacherViewModel.TeacherAccount);
+                
+                dbContext.Courses.Add(teacherViewModel.TeachingCourse);
+                dbContext.SaveChanges();
+            }
+
+            return createdTeacher;
         }
 
         public static Account HasAccount(string email, string password)
@@ -186,6 +204,12 @@ namespace ElearnerApp.Utilities
                 }
 
                 currentUserDeposit.Deposit -= courseCost;
+                dbContext.SaveChanges();
+
+                BankAccount teacherDeposit = dbContext.BankAccounts
+                    .Where(b => b.AccountId == (dbContext.Courses.Where( c => c.Id == courseId).Select(t => t.TeacherId).FirstOrDefault()))
+                    .FirstOrDefault();
+                teacherDeposit.Deposit += courseCost;
                 dbContext.SaveChanges();
 
                 dbContext.Subscriptions.Add(new Subscription { CourseId = courseId, StudentId = accountid });
@@ -290,9 +314,9 @@ namespace ElearnerApp.Utilities
         {
             using (ElearnerContext dbContext = new ElearnerContext())
             {
-                var popularCourses = dbContext.Courses.SqlQuery("SELECT TOP 3 Id,Name,Duration,Price,TeacherId " +
+                var popularCourses = dbContext.Courses.SqlQuery("SELECT TOP 3 Id,Name,Duration,Price,TeacherId,Description " +
                                                                 "FROM Courses INNER JOIN Subscriptions ON Courses.Id = Subscriptions.CourseId " +
-                                                                "GROUP BY Id,Name,Duration,Price,TeacherId " +
+                                                                "GROUP BY Id,Name,Duration,Price,TeacherId,Description " +
                                                                 "ORDER BY COUNT(Subscriptions.StudentId) DESC").ToList();
                 return popularCourses;
             }
@@ -312,11 +336,11 @@ namespace ElearnerApp.Utilities
             }
         }
 
-        public static List<Teacher> GetTeachers()
+        public static List<Teacher> GetTeachers ()
         {
             using (ElearnerContext dbContext = new ElearnerContext())
             {
-                List<Teacher> teacherList = dbContext.Teachers.ToList();
+                List<Teacher> teacherList = dbContext.Teachers.Include(a => a.Account).ToList();
 
                 return teacherList;
             }

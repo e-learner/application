@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using ElearnerApp.ViewModels;
 using ElearnerApp.Utilities;
 using ElearnerApp.Models;
@@ -17,7 +13,6 @@ namespace ElearnerApp.Controllers
             return View();
         }
 
-        //TODO: Add Redirect
         [HttpPost]
         public ActionResult SignUpStudent(SignUpViewModel sendedModel)
         {
@@ -36,6 +31,25 @@ namespace ElearnerApp.Controllers
 
             Session[UserType.LoggedInUser.ToString()] = result;
             return View("SuccessfulSignUp");
+        }
+
+        public ActionResult SignUpTeacherForm ()
+        {
+            return View();
+        }
+
+        //TODO: Create View for success
+        [HttpPost]
+        public ActionResult SignUpTeacher (SignUpTeacherViewModel sendedModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View("SignUpTeacherForm");
+            }
+
+            Account result = ElearnerDataLayoutActions.SignUpTeacher(sendedModel);
+
+            return Content(result.ToString());
         }
 
         public ActionResult Login()

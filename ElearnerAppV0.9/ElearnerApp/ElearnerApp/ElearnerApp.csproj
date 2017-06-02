@@ -192,6 +192,7 @@
     <Compile Include="ViewModels\PurchaseViewModel.cs" />
     <Compile Include="ViewModels\QuizViewModel.cs" />
     <Compile Include="ViewModels\SearchViewModel.cs" />
+    <Compile Include="ViewModels\SignUpTeacherViewModel.cs" />
     <Compile Include="ViewModels\SignUpViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -269,6 +270,7 @@
     <Content Include="Views\Home\Teachers.cshtml" />
     <Content Include="Views\Home\Subscriptions.cshtml" />
     <Content Include="Views\Home\AddMoney.cshtml" />
+    <Content Include="Views\Authedication\SignUpTeacherForm.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

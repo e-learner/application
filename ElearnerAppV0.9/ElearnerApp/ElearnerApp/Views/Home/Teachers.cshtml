@@ -3,12 +3,23 @@
     ViewBag.Title = "Teachers";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-<h2>List Of Our Teachers</h2>
-
-<ul>
-    @foreach (var item in Model)
-    {
-        <li>@item.Name</li>
-    }
-</ul>
+<div class="container">
+    <div class="row">
+        <div class="col-lg-4">
+            <h2>List Of Our Teachers</h2>
+        </div>
+        <div class="col-lg-4 col-lg-push-4">
+            <a class="btn-lg btn-success" href="@Url.Action("SignUpTeacherForm", "Authedication")">Become a Teacher</a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <ul class="list-group">
+                @foreach (var item in Model)
+                {
+                    <li class="list-group-item">@item.Name @item.Lastname <span style="padding-left:15px">@item.Account.Email</span></li>
+                }
+            </ul>
+        </div>
+    </div>
+</div>
