@@ -2,37 +2,42 @@
 @using ElearnerApp.Utilities
 <header class="container-fluid">
     <div class="row logodiv">
-        <div class="col-lg-4 col-sm-4 col-xs-2 col-xs-6">
+        <div class="col-lg-1 col-md-1 col-sm-2 col-xs-2">
             <a href=@Url.Action("Index", "Home")><img src=@Url.Content("~/Content/images/logo.png") alt="logo" height="100"></a>
-            <span> E-learning <br>Codenerds Corp.</span>
+        </div>
 
+        <div class="col-lg-3 col-md-4 col-sm-4 hidden-xs div2">
+            <span> E-learning <br>Codenerds Corp.</span>
         </div>
-        <div class="col-lg-6 col-sm-6 hidden-xs">
-            <p>Possibly the best </p>
-        </div>
-        <div class="col-lg-2 col-sm-2 col-xs-6 subscribe">
-            @{
-                Account logInUser = (Account)Session[UserType.LoggedInUser.ToString()];
-                if (logInUser == null)
-                {
-                    <a href="@Url.Action("LogIn", "Authedication")" class="btn btn-info" role="button">Log in </a>
-                    <a href=@Url.Action("SignUpForm", "Authedication") class="btn btn-primary" role="button">Sign Up</a>
+
+            <div class="col-lg-4 col-md-4 hidden-xs hidden-sm div3">
+                <p>Possibly the best </p>
+            </div>
+
+            <div class="col-lg-4 col-md-3 col-sm-6 col-xs-10  subscribe">
+                @{
+                    Account logInUser = (Account)Session[UserType.LoggedInUser.ToString()];
+                    if (logInUser == null)
+                    {
+                        <div class="pull-right">
+                            <a href="@Url.Action("LogIn", "Authedication")" class="btn btn-info" role="button">Log in </a>
+                            <a href=@Url.Action("SignUpForm", "Authedication") class="btn btn-primary" role="button">Sign Up</a>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="btn-group" role="group">
+                            <a href=@Url.Action("Subscriptions", "Home", new {id = logInUser.Id}) class="btn btn-info" role="button"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> @logInUser.Student.Name @logInUser.Student.Lastname</a>
+
+                            <a class="btn btn-default" role="button">
+                                @logInUser.BankAccount.Deposit&euro;
+                            </a>
+                        </div>
+                        <a href=@Url.Action("LogOut", "Authedication") class="btn btn-primary pull-right" role="button">Log Out</a>
+                    }
                 }
-                else
-                {
-                    <div class="btn-group" role="group">
-                        <button type="button" class="btn btn-default">
-                            <span class="glyphicon glyphicon-user" aria-hidden="true"></span><a href=@Url.Action("Subscriptions", "Home", new {id = logInUser.Id})>@logInUser.Student.Name @logInUser.Student.Lastname</a>
-                        </button>
-                        <button type="button" class="btn btn-default">
-                            @logInUser.BankAccount.Deposit&euro;
-                        </button>
-                    </div>
-                    <a href=@Url.Action("LogOut", "Authedication") class="btn btn-primary" role="button">Log Out</a>
-                }
-            }
-        </div>
-    </div> <!-- Logo Area -->
+            </div>
+        </div> <!-- Logo Area -->
     <div class="row">
         <nav class="navbar navbar-default">
             <div class="container-fluid menu">

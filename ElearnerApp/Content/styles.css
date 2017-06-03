@@ -2,26 +2,19 @@
     height: 100px;
 }
 
-.logodiv div:nth-child(1) span {
+.logodiv .div2 span{
     display: inline-block;
     color: #68228B;
     font-weight: bold;
     font-size: 1.5em;
 }
 
-.logodiv div:nth-child(2) p {
+.logodiv .div3 p {
     font-size: 3em;
     padding-top: 25px;
 }
 
 
-.logodiv div:nth-child(3) a {
-    padding: 7px;
-}
-
-header .logodiv span {
-    padding-left: 20px;
-}
 
 
 header .subscribe {

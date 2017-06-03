@@ -54,6 +54,12 @@ namespace ElearnerApp.Controllers
         {
             ViewData["LogInFirst"] = false;
 
+            if(TempData["Message"] != null)
+            {
+                ViewBag.Message = (bool)TempData["Message"];
+            }
+            
+
             if (Session[UserType.LoggedInUser.ToString()] == null)
             {
                 ViewData["LogInFirst"] = true;
@@ -76,37 +82,40 @@ namespace ElearnerApp.Controllers
         {
             var comment = contentVM.Subscription.Comment;
             var rating = contentVM.Subscription.Rate;
-            
+            var courseId = contentVM.Course.Id;
+            int accountId = ((Account)Session[UserType.LoggedInUser.ToString()]).Id;
+
             using (ElearnerContext dbContext = new ElearnerContext())
             {
 
-                if (!String.IsNullOrEmpty(comment))
+                if (!String.IsNullOrEmpty(comment) && rating!= null)
                 {
-                    //This method finds entity by primary key. If you have composite primary key, then pass key values in the order they defined in model:
-                    // var sub = dbContext.Subscriptions.Find(course.Id, 9);
-
-                    var subscriptionInDB = dbContext.Subscriptions.Find(2, 9);
-
-                    //.Where(x => x.CourseId == course.Id)
-                    //.Update(p => new Person()
-                    //{
-                    //    Name = newName,
-                    //    EditCount = p.EditCount + 1
-                    //});
-
+                    // If you have composite primary key, then pass key values in the order they defined in model:
+                    var subscriptionInDB = dbContext.Subscriptions.Find(courseId, accountId);
 
                     subscriptionInDB.Comment = comment;
                     subscriptionInDB.Rate = rating;
-                    dbContext.SaveChanges();
-                    return RedirectToAction("Content", "Courses");
+                    try
+                    {
+                        dbContext.SaveChanges();
+                        TempData["Message"] = true;
+                    }
+                    catch (Exception)
+                    {
+                        TempData["Message"] = false;
+                    }
+                    
+                    return RedirectToAction("Content", "Courses", new {id = courseId});
                 }
                 else
-                    return Content("NoAction");
+                {
+                    TempData["Message"] = false;
+                    return RedirectToAction("Content", "Courses", new { id = courseId });
+                }
+                    
             }
             
         }
-
-
 
 
         public ActionResult Quiz (int Id)
