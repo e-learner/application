@@ -1,0 +1,19 @@
+﻿
+@{
+    ViewBag.Title = "View";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1 class="text-center">Well done, You are successfully subscribed!</h1>
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-push-4 col-lg-6">
+            <a class="btn btn-default" href="@Url.Action("Index","Home")">Go to Home</a>
+        </div>
+        <div class="col-lg-6">
+            <a class="btn btn-primary" href="@Url.Action("Index","Courses")">Go to Courses</a>
+        </div>
+    </div>
+</div>
+@*@Html.Partial("MostPopular")*@
