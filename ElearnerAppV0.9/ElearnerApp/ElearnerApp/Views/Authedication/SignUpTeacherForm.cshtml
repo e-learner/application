@@ -6,7 +6,7 @@
 
 <h2>Sign Up now and Upload your Lesson</h2>
 
-@using (Html.BeginForm("SignUpTeacher", "Authedication", FormMethod.Post))
+@using (Html.BeginForm("SignUpTeacher", "Authedication", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     <div class="container">
         <div class="row">
@@ -77,6 +77,60 @@
                     @Html.TextBoxFor(m => m.TeachingCourse.Content.VideoUrl, new { @class = "form-control", @placeholder = "ex. Enter video URL" })
                     @Html.ValidationMessageFor(m => m.TeachingCourse.Content.VideoUrl)
                 </div>
+                <div class="form-group">
+                    @Html.Label("Image Thumbnail")
+                    <input type="file" name="Image" value="" />
+                </div>
+                <h3><span class="label label-info">Course Quiz</span></h3>
+                @* //TODO: Better Way!! *@
+                @{
+                    <div class="form-group">
+                        @Html.Label("Question ")
+                        @Html.TextBoxFor(m => m.FirstQuestion.QuestionStr, new { @class = "form-control", @placeholder = "ex. write a question "})
+                        @Html.ValidationMessageFor(m => m.FirstQuestion.QuestionStr)
+                    </div>
+                    <div class="form-group">
+                        @Html.Label("Answer ")
+                        @Html.CheckBoxFor(m => m.FirstQuestion.Answer, new { @class = "form-control" })
+                    </div>
+                    <div class="form-group">
+                        @Html.Label("Question ")
+                        @Html.TextBoxFor(m => m.SecondQuestion.QuestionStr, new { @class = "form-control", @placeholder = "ex. write a question " })
+                        @Html.ValidationMessageFor(m => m.SecondQuestion.QuestionStr)
+                    </div>
+                    <div class="form-group">
+                        @Html.Label("Answer ")
+                        @Html.CheckBoxFor(m => m.SecondQuestion.Answer, new { @class = "form-control" })
+                    </div>
+                    <div class="form-group">
+                        @Html.Label("Question ")
+                        @Html.TextBoxFor(m => m.ThirdQuestion.QuestionStr, new { @class = "form-control", @placeholder = "ex. write a question " })
+                        @Html.ValidationMessageFor(m => m.ThirdQuestion.QuestionStr)
+                    </div>
+                    <div class="form-group">
+                        @Html.Label("Answer ")
+                        @Html.CheckBoxFor(m => m.ThirdQuestion.Answer, new { @class = "form-control" })
+                    </div>
+                    <div class="form-group">
+                        @Html.Label("Question ")
+                        @Html.TextBoxFor(m => m.ForthQuestion.QuestionStr, new { @class = "form-control", @placeholder = "ex. write a question " })
+                        @Html.ValidationMessageFor(m => m.ForthQuestion.QuestionStr)
+                    </div>
+                    <div class="form-group">
+                        @Html.Label("Answer ")
+                        @Html.CheckBoxFor(m => m.ForthQuestion.Answer, new { @class = "form-control" })
+                    </div>
+                    <div class="form-group">
+                        @Html.Label("Question ")
+                        @Html.TextBoxFor(m => m.FifthQuestion.QuestionStr, new { @class = "form-control", @placeholder = "ex. write a question " })
+                        @Html.ValidationMessageFor(m => m.FifthQuestion.QuestionStr)
+                    </div>
+                    <div class="form-group">
+                        @Html.Label("Answer ")
+                        @Html.CheckBoxFor(m => m.FifthQuestion.Answer, new { @class = "form-control" })
+                    </div>
+                }
+                
             </div>
         </div>
     </div>

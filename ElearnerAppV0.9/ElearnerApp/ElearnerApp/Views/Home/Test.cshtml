@@ -1,9 +1,12 @@
-﻿@model List<ElearnerApp.Models.Course>
+﻿@model ElearnerApp.ViewModels.TestViewModel
 @{
     ViewBag.Title = "Test";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+@using (Html.BeginForm("TestForm", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    
+    <input type="file" name="Image"/>
 
-<h2>Tests</h2>
-
-@Html.Partial("MostPopular");
+    <button type="submit" class="btn btn-primary">Sign Up</button>
+}

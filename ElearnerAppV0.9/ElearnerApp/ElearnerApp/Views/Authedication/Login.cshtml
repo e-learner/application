@@ -5,40 +5,53 @@
 }
 @using (Html.BeginForm("LogIn", "Authedication", FormMethod.Post))
 {
-    <div class="form-horizontal">
-        <h2>Login</h2> <br />
-        @{ 
-            if ((Boolean)Session["wrongAuthedication"])
-            {
-                <h3 style="color:red">Account does not exists!</h3>
-            }
-            @*else if ((Boolean)Session["LogInFirst"])
-            {
-                <h3 style="color:red">Log In first to view a Course!</h3>
-                Session["LogInFirst"] = false;
-            }*@
-        }
-        @Html.AntiForgeryToken()    @*this is to prevent CSRF attack*@
+<div class="container">
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="form-horizontal">
+                <h2>Login</h2> <br />
+                @{
+                    if ((Boolean)Session["wrongAuthedication"])
+                    {
+                        <h3 style="color:red">Account does not exists!</h3>
+                    }
+                    @*else if ((Boolean)Session["LogInFirst"])
+                {
+                    <h3 style="color:red">Log In first to view a Course!</h3>
+                    Session["LogInFirst"] = false;
+                }*@
+                }
+                @Html.AntiForgeryToken()    @*this is to prevent CSRF attack*@
 
-        <div class="form-group">
-            @Html.LabelFor(a => a.Email)
-            @Html.TextBoxFor(a => a.Email, new { @class = "form-control" })
-            @Html.ValidationMessageFor(a => a.Email, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    @Html.LabelFor(a => a.Email)
+                    @Html.TextBoxFor(a => a.Email, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(a => a.Email, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(a => a.Password)
+                    @Html.PasswordFor(a => a.Password, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(a => a.Password, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    <input type="submit" class="btn btn-primary" value="Log In">
+                </div>
+
+                @if (ViewBag.NotMatching == true)
+                {
+                    <p class="">Email and Password don't match!</p>
+                }
+            </div>
         </div>
-
-        <div class="form-group">
-            @Html.LabelFor(a => a.Password)
-            @Html.PasswordFor(a => a.Password, new { @class = "form-control" })
-            @Html.ValidationMessageFor(a => a.Password, "", new { @class = "text-danger" })
+        <div class="col-lg-6">
+            <h3 class="text-info">If you dont have account</h3>
+            <a class="btn btn-info" href="@Url.Action("SignUpform")" role="button">Sign Up for Students...</a>
+            <br />
+            <a class="btn btn-info" href="@Url.Action("SignUpTeacherForm")" role="button">Sign Up for Teachers...</a>
         </div>
-
-        <div class="form-group">
-            <input type="submit" class="btn btn-primary" value="Log In">
-         </div>
-
-            @if (ViewBag.NotMatching == true)
-            {
-                <p class="">Email and Password don't match!</p>
-            }
-        </div>
+    </div>
+</div>
+    
  }

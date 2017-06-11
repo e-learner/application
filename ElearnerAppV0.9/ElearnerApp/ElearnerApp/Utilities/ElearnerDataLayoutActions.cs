@@ -161,7 +161,16 @@ namespace ElearnerApp.Utilities
                 if (result != null)
                 {
                     if (result.Email == email && result.Password == password)
-                        return result;
+                    {
+                        if (dbContext.Students.Where(s => s.AccountId == result.Id).FirstOrDefault() != null)
+                        {
+                            return dbContext.Accounts.Include(s => s.Student).Include(b => b.BankAccount).FirstOrDefault(a => a.Email == email);
+                        }
+                        else
+                        {
+                            return dbContext.Accounts.Include(t => t.Teacher).Include(b => b.BankAccount).FirstOrDefault(a => a.Email == email);
+                        }
+                    }
                 }
 
                 return null;
@@ -184,6 +193,28 @@ namespace ElearnerApp.Utilities
                     throw new ArgumentException("Wrong Arguments");
             }
         }
+
+        public static IList<Course> GetCourseByTeacher(int teacherId)
+        {
+            IList<Course> results;
+            using (ElearnerContext dbContext = new ElearnerContext())
+            {
+                results = dbContext.Courses.Where(c => c.TeacherId == teacherId).ToList();
+            }
+
+            return results;
+        }
+
+        //public static IList<Course> GetCourseByTeacher (int teacherId)
+        //{
+        //    IList<Course> results;
+        //    using (ElearnerContext dbContext = new ElearnerContext())
+        //    {
+        //        results = dbContext.Courses.Where(c => c.TeacherId == teacherId).ToList();
+        //    }
+
+        //    return results;
+        //}
 
         public static string PurchaseCourse(int courseId, int accountid, decimal courseCost)
         {

@@ -2,6 +2,7 @@
 using ElearnerApp.ViewModels;
 using ElearnerApp.Utilities;
 using ElearnerApp.Models;
+using System.IO;
 
 namespace ElearnerApp.Controllers
 {
@@ -47,7 +48,15 @@ namespace ElearnerApp.Controllers
                 return View("SignUpTeacherForm");
             }
 
+            sendedModel.AddQuestions();
             Account result = ElearnerDataLayoutActions.SignUpTeacher(sendedModel);
+
+            if (sendedModel.Image.ContentLength > 0)
+            {
+                var fileName = Path.GetFileName(sendedModel.Image.FileName);
+                var path = Path.Combine(Server.MapPath("~/Content/images"), Utilities.FileTools.RemoveSpacesFromFilename(sendedModel.TeachingCourse.Name) + ".png");
+                sendedModel.Image.SaveAs(path);
+            }
 
             return Content(result.ToString());
         }

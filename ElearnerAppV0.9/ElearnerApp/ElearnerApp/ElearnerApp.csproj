@@ -181,6 +181,7 @@
     <Compile Include="Models\Student.cs" />
     <Compile Include="Models\Subscription.cs" />
     <Compile Include="Models\Teacher.cs" />
+    <Compile Include="Utilities\AppTools.cs" />
     <Compile Include="Utilities\ElearnerDataLayoutActions.cs" />
     <Compile Include="Models\AppManager.cs" />
     <Compile Include="Utilities\Enumarations.cs" />
@@ -194,6 +195,7 @@
     <Compile Include="ViewModels\SearchViewModel.cs" />
     <Compile Include="ViewModels\SignUpTeacherViewModel.cs" />
     <Compile Include="ViewModels\SignUpViewModel.cs" />
+    <Compile Include="ViewModels\TestViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
@@ -209,7 +211,7 @@
     <Content Include="Content\images\Guitar.png" />
     <Content Include="Content\images\Iliada.png" />
     <Content Include="Content\images\javaForDummies.png" />
-    <Content Include="Content\images\javascript.png" />
+    <Content Include="Content\images\javascriptAdvanced.png" />
     <Content Include="Content\images\logo.png" />
     <Content Include="Content\images\Maths.png" />
     <Content Include="Content\images\Piano.png" />
@@ -224,6 +226,7 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Content\images\TreeStory.png" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -271,6 +274,7 @@
     <Content Include="Views\Home\Subscriptions.cshtml" />
     <Content Include="Views\Home\AddMoney.cshtml" />
     <Content Include="Views\Authedication\SignUpTeacherForm.cshtml" />
+    <Content Include="Views\Home\TeacherProfile.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

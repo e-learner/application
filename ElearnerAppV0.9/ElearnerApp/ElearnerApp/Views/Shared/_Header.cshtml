@@ -22,7 +22,16 @@
                 {
                     <div class="btn-group" role="group">
                         <button type="button" class="btn btn-default">
-                            <span class="glyphicon glyphicon-user" aria-hidden="true"></span><a href=@Url.Action("Subscriptions", "Home", new {id = logInUser.Id})>@logInUser.Student.Name @logInUser.Student.Lastname</a>
+                            @{
+                                if (logInUser.Student != null)
+                                {
+                                    <span class="glyphicon glyphicon-user" aria-hidden="true"></span><a href=@Url.Action("Subscriptions", "Home", new { id = logInUser.Id }) role="button">@logInUser.Student.Name @logInUser.Student.Lastname</a>
+                                }
+                                else
+                                {
+                                    <span class="glyphicon glyphicon-user" aria-hidden="true"></span><a href=@Url.Action("TeacherProfile", "Home", new { id = logInUser.Id }) role="button">@logInUser.Teacher.Name @logInUser.Teacher.Lastname</a>
+                                }
+                            }
                         </button>
                         <button type="button" class="btn btn-default">
                             <a href=@Url.Action("AddMoney", "Home", new {id = logInUser.Id})>@logInUser.BankAccount.Deposit&euro;</a> 

@@ -3,20 +3,36 @@
 @{
     ViewBag.Title = "Subscriptions";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    ElearnerApp.Models.Account loggedInUser = (ElearnerApp.Models.Account)Session[ElearnerApp.Utilities.UserType.LoggedInUser.ToString()];
 }
+<div class="container">
+    <div class="row">
+        <div class="col-lg-6">
+            <h2>My Profile</h2>
+            <hr />
+            <p>Name : <b>@loggedInUser.Student.Name</b></p><br />
+            <p>Last Name : <b>@loggedInUser.Student.Lastname</b></p><br />
+            <p>Birth Date : <b>@loggedInUser.Student.Birthdate.ToLongDateString()</b></p><br />
+            <p>Account Number: <b>@loggedInUser.Id</b></p><br />
+            <p>Email Address : <b>@loggedInUser.Email</b></p>
+        </div>
+        <div class="col-lg-6">
+            <h2>My Subscriptions</h2>
+            <hr />
+            @{
+                if (Model.Count == 0)
+                {
+                    <p>You have no subscriptions.</p>
+                    <p>Go to Courses section and buy some...And learn more!</p>
+                    <a href="@Url.Action("Index","Courses")" class="btn btn-success btn-lg" role="button">Go to Courses!</a>
 
-<h2>My Subscriptions</h2>
-<hr />
-@{
-    if (Model.Count == 0)
-    {
-        <p>You have no subscriptions.</p>
-        <p>Go to Courses section and buy some...And learn more!</p>
-        <a href="@Url.Action("Index","Courses")" class="btn btn-success btn-lg" role="button">Go to Courses!</a>
+                }
+                foreach (var subscription in Model)
+                {
+                    <p>&diams; <a href="@Url.Action("Content","Courses", new {id = subscription.CourseId })" class="btn btn-default btn-lg active" role="button">@subscription.Course.Name</a></p>
+                }
+            }
+        </div>
+    </div>
+</div>
 
-    }
-    foreach (var subscription in Model)
-    {
-        <p>&diams; <a href="@Url.Action("Content","Courses", new {id = subscription.CourseId })" class="btn btn-default btn-lg active" role="button">@subscription.Course.Name</a></p>
-    }
-}

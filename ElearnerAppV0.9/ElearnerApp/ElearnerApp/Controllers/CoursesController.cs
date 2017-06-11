@@ -18,6 +18,17 @@ namespace ElearnerApp.Controllers
             return View(queryResult);
         }
 
+        public ActionResult EditCourse (int id)
+        {
+            if (Session[UserType.LoggedInUser.ToString()] != null && ((Account)Session[UserType.LoggedInUser.ToString()]).Teacher != null)
+            {
+                return View();
+            }
+            else
+                return RedirectToAction("Index", "Home");
+            
+        }
+
         public ActionResult Purchase(Course current)
         {
             ViewData["LogInFirst"] = false;

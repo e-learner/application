@@ -6,6 +6,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using ElearnerApp.ViewModels;
+using System.IO;
 
 namespace ElearnerApp.Controllers
 {
@@ -38,8 +39,24 @@ namespace ElearnerApp.Controllers
             return View(teacherList);
         }
 
+        public ActionResult TeacherProfile(int id)
+        {
+            if (Session[UserType.LoggedInUser.ToString()] == null)
+            {
+                return RedirectToAction("Index");
+            }
+
+            IList<Course> teacherCourses = ElearnerDataLayoutActions.GetCourseByTeacher(id);
+
+            return View(teacherCourses);
+        }
+
         public ActionResult Subscriptions(int id)
         {
+            if (Session[UserType.LoggedInUser.ToString()] == null)
+            {
+                return RedirectToAction("Index");
+            }
             IList<Subscription> subscriptions = ElearnerDataLayoutActions.GetStudentSubscriptions(id);
 
             return View(subscriptions);
@@ -66,8 +83,23 @@ namespace ElearnerApp.Controllers
         // Only for testing
         public ActionResult Test()
         {
-            var vm = ElearnerDataLayoutActions.GetMostPopular();
-            return View(vm);
+            
+            return View();
+        }
+        // Only for testing
+        [HttpPost]
+        public ActionResult TestForm (TestViewModel testViewModel)
+        {
+            if (testViewModel != null && testViewModel.Image.ContentLength > 0)
+            {
+                var fileName = Path.GetFileName(testViewModel.Image.FileName);
+                var path = Path.Combine(Server.MapPath("~/Content/images"), "imgB.png");
+                testViewModel.Image.SaveAs(path);
+                return Content(testViewModel.Image.FileName+" ** " +fileName + " ** " + path);
+            }
+            else
+                return Content("no");
+
         }
     }
 }
