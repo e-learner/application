@@ -17,12 +17,26 @@
     </div>
     <div class="row">
         <div class="col-lg-12">
-            <ul class="list-group">
-                @foreach (var item in Model)
-                {
-                    <li class="list-group-item">@item.Name @item.Lastname <span style="padding-left:15px"><a href="mailto:@item.Account.Email">@item.Account.Email</a></span></li>
+            <table class="table table-hover">
+                <tr>
+                    <th>ID</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Email Address</th>
+                </tr>
+                
+                @{
+                    foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.AccountId</td>
+                            <td>@item.Name</td>
+                            <td>@item.Lastname</td>
+                            <td><a href="mailto:@item.Account.Email">@item.Account.Email</a></td>
+                        </tr>
+                    }
                 }
-            </ul>
+            </table>
         </div>
     </div>
 </div>

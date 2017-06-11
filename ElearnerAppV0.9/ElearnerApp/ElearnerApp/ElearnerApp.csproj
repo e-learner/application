@@ -275,6 +275,7 @@
     <Content Include="Views\Home\AddMoney.cshtml" />
     <Content Include="Views\Authedication\SignUpTeacherForm.cshtml" />
     <Content Include="Views\Home\TeacherProfile.cshtml" />
+    <Content Include="Views\Courses\EditCourse.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

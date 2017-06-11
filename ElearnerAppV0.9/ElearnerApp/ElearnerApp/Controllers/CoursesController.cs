@@ -22,11 +22,21 @@ namespace ElearnerApp.Controllers
         {
             if (Session[UserType.LoggedInUser.ToString()] != null && ((Account)Session[UserType.LoggedInUser.ToString()]).Teacher != null)
             {
-                return View();
+                Course teachersCourse = ElearnerDataLayoutActions.GetFullCourseDetails(id);
+
+                return View(teachersCourse);
             }
             else
                 return RedirectToAction("Index", "Home");
             
+        }
+
+        [HttpPost]
+        public ActionResult SaveCourseChanges(Course course)
+        {
+            ElearnerDataLayoutActions.UpdateCourse(course);
+
+            return RedirectToAction("CourseView","Courses",new {id =course.Id });
         }
 
         public ActionResult Purchase(Course current)

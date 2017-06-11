@@ -83,6 +83,23 @@ namespace ElearnerApp.Utilities
             dbContext.SaveChanges();
         }
 
+        public static void UpdateCourse(Course changedCourse)
+        {
+            using (ElearnerContext dbContext = new ElearnerContext())
+            {
+                Course oldCourse = dbContext.Courses.Where(c => c.Id == changedCourse.Id).Include(c => c.Content).FirstOrDefault();
+
+                oldCourse.Name = changedCourse.Name;
+                oldCourse.Price = changedCourse.Price;
+                oldCourse.Description = changedCourse.Description;
+                oldCourse.Duration = changedCourse.Duration;
+                oldCourse.Content.TextContent = changedCourse.Content.TextContent;
+                oldCourse.Content.VideoUrl = changedCourse.Content.VideoUrl;
+
+                dbContext.SaveChanges();
+            }
+        }
+
         public static Account SignUp (String name, string lastname, DateTime birthdate, string email, string password, Decimal deposit)
         {
             using (ElearnerContext dbContext = new ElearnerContext())
@@ -205,16 +222,16 @@ namespace ElearnerApp.Utilities
             return results;
         }
 
-        //public static IList<Course> GetCourseByTeacher (int teacherId)
-        //{
-        //    IList<Course> results;
-        //    using (ElearnerContext dbContext = new ElearnerContext())
-        //    {
-        //        results = dbContext.Courses.Where(c => c.TeacherId == teacherId).ToList();
-        //    }
+        public static Course GetFullCourseDetails (int courseId)
+        {
+            Course results;
+            using (ElearnerContext dbContext = new ElearnerContext())
+            {
+                results = dbContext.Courses.Where(c => c.Id == courseId).Include(c =>c.Content).Include(q => q.Questions).FirstOrDefault();
+            }
 
-        //    return results;
-        //}
+            return results;
+        }
 
         public static string PurchaseCourse(int courseId, int accountid, decimal courseCost)
         {
