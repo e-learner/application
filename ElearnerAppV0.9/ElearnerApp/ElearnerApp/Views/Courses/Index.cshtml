@@ -3,17 +3,30 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-@if(TempData["InvalidSearchMessage"] != null)
+@if (TempData["InvalidSearchMessage"] != null)
 {
-    <div>@TempData["InvalidSearchMessage"]</div>
+    <div class="text-danger"><h2>@TempData["InvalidSearchMessage"]</h2></div>
 }
-@using (Html.BeginForm("SearchResult","Courses",FormMethod.Post))
-{
-    <div class=" form-group">
-        @Html.LabelFor(x => x.Query)
-        @Html.TextBoxFor(x => x.Query, new { @class = "form-control" })
-    </div>
 
+@{
+    List<SelectListItem> orderTypes = new List<SelectListItem>();
+    orderTypes.Add(new SelectListItem() { Text = "Name", Value = "Name" });
+    orderTypes.Add(new SelectListItem() { Text = "Price", Value = "Price" });
+    orderTypes.Add(new SelectListItem() { Text = "Duration", Value = "Duration" });
+}
+
+@using (Html.BeginForm("SearchResult", "Courses", FormMethod.Post))
+{
+    <div class="row">
+        <div class=" form-group col-xs-6 col-lg-2">
+            @Html.LabelFor(x => x.Query)
+            @Html.TextBoxFor(x => x.Query, new { @class = "form-control" })
+        </div>
+        <div class=" form-group col-xs-6 col-lg-2">
+            @Html.LabelFor(x => x.Order)
+            @Html.DropDownListFor(x => x.Order, orderTypes, "Select", new { @class = "form-control" })
+        </div>
+    </div>
     <div class="row">
         <div class=" form-group col-xs-6 col-lg-2">
             @Html.LabelFor(x => x.LowerBoundPrice)
@@ -24,21 +37,21 @@
             @Html.TextBoxFor(x => x.UpperBoundPrice, new { @class = "form-control" })
         </div>
     </div>
-    <div class="row">
-        <div class=" form-group col-xs-6 col-lg-2">
-            @Html.LabelFor(x => x.LowerBoundDuration)
-            @Html.TextBoxFor(x => x.LowerBoundDuration, new { @class = "form-control" })
+        <div class="row">
+            <div class=" form-group col-xs-6 col-lg-2">
+                @Html.LabelFor(x => x.LowerBoundDuration)
+                @Html.TextBoxFor(x => x.LowerBoundDuration, new { @class = "form-control" })
+            </div>
+            <div class=" form-group col-xs-6 col-lg-2">
+                @Html.LabelFor(x => x.UpperBoundDuration)
+                @Html.TextBoxFor(x => x.UpperBoundDuration, new { @class = "form-control" })
+            </div>
         </div>
-        <div class=" form-group col-xs-6 col-lg-2">
-            @Html.LabelFor(x => x.UpperBoundDuration)
-            @Html.TextBoxFor(x => x.UpperBoundDuration, new { @class = "form-control" })
-        </div>
-    </div>
-    <button type="submit">Search</button>
+        <button class="btn btn-lg btn-primary" type="submit">Search</button>
 }
 @*//TODO: Limit description words *@
 @Html.Partial("MostPopular")
 @Html.Partial("FreeCourses")
-        
+
 
 

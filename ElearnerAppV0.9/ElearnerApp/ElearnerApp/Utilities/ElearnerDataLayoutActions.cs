@@ -393,5 +393,15 @@ namespace ElearnerApp.Utilities
                 return teacherList;
             }
         }
+
+        public static void UpdateGradeToDb (byte? grade, int studentid, int courseid)
+        {
+            using (ElearnerContext dbContext = new ElearnerContext())
+            {
+                var query = dbContext.Subscriptions.Where(x => x.StudentId == studentid && x.CourseId == courseid).FirstOrDefault();
+                query.Grade = grade;
+                dbContext.SaveChanges();
+            }
+        }
     }
 }

@@ -87,6 +87,10 @@ namespace ElearnerApp.Controllers
 
         public ActionResult Quiz (int Id)
         {
+            if (Session[UserType.LoggedInUser.ToString()] == null)
+            {
+                return RedirectToAction("LogIn", "Authedication");
+            }
             using (ElearnerContext dbContext = new ElearnerContext())
             {
                 var course = dbContext.Courses.Where(c => c.Id == Id).First();
@@ -103,13 +107,24 @@ namespace ElearnerApp.Controllers
             }
 
         }
+
         [HttpPost]
         public ActionResult QuizResults (QuizViewModel vm)
         {
-            QuizViewModel viewModel = (QuizViewModel)TempData["FullModel"];
-            viewModel.Answers = vm.Answers;
+            QuizViewModel oldviewModel = (QuizViewModel)TempData["FullModel"];
+            QuizViewModel newViewModel = oldviewModel;
+            newViewModel.QuizResults = new List<bool>();
+            Account logInUser = (Account)Session[UserType.LoggedInUser.ToString()];
 
-            return View(viewModel);
+            for (int i = 0; i < oldviewModel.Questions.Count; i++)
+            {
+                newViewModel.QuizResults.Add((oldviewModel.Questions[i].Answer == vm.UserAnswers[i]) ? true : false);
+            }
+
+            byte? grade = (byte)newViewModel.QuizResults.Where(x => x == true).Count();
+            ElearnerDataLayoutActions.UpdateGradeToDb(grade, logInUser.Id, oldviewModel.Course.Id);
+
+            return View(newViewModel);
         }
 
         [HttpPost]
