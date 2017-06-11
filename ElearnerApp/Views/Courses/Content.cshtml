@@ -31,40 +31,61 @@
         <section>
             @using (Html.BeginForm("Content", "Courses", FormMethod.Post))
                 {
-            <div class="row">
-                <div class="col-sm-10 col-sm-push-1">
-                    @Html.HiddenFor(c => c.Course.Id)
-                    <div class="form-group textarea">
-                        <p>Comment</p>
-                        @Html.TextAreaFor(s => s.Subscription.Comment)
-                    </div>
-                </div>  
-            </div>
+                   <div class="row">
+                        <div class="col-sm-10 col-sm-push-1">
+                            @Html.HiddenFor(c => c.Course.Id)
+                            <div class="form-group textarea">
+                                <p>Comment</p>
+                                @Html.TextAreaFor(s => s.Subscription.Comment)
+                            </div>
+                         </div>  
+                   </div>
 
-                if (ViewBag.Message != null && ViewBag.Message)
-                {
-                <div class="row">
-                    <div class="col-sm-4 col-sm-push-1">
-                        <div class="alert alert-success">
-                                <p><strong>Your comment has been registered!</strong></p>
-                        </div>
-                    </div>
-                 </div>
-                }
-                if (ViewBag.Message != null && !ViewBag.Message)
-                {
+                    if (ViewBag.Comment ==true && ViewBag.Rating == true)
+                    {
                     <div class="row">
                         <div class="col-sm-4 col-sm-push-1">
-                            <div class="alert alert-danger">
-                                <p><strong>You should comment and rate</strong></p>
+                            <div class="alert alert-success">
+                                    <p><strong>Your Comment and Rate has been registered!</strong></p>
                             </div>
                         </div>
-                    </div>
+                     </div>
+                    }
 
-                }
+                    else if (ViewBag.Comment == true)
+                    {
+                        <div class="row">
+                            <div class="col-sm-4 col-sm-push-1">
+                                <div class="alert alert-success">
+                                    <p><strong>Your Comment has been registered!</strong></p>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    else if (ViewBag.Rating == true)
+                    {
+                        <div class="row">
+                            <div class="col-sm-4 col-sm-push-1">
+                                <div class="alert alert-success">
+                                    <p><strong>Your Rating has been registered!</strong></p>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    else if (ViewBag.Comment == false && ViewBag.Rating == false)
+                    {
+                            <div class="row">
+                                <div class="col-sm-4 col-sm-push-1">
+                                    <div class="alert alert-danger">
+                                        <p><strong>You should comment or rate</strong></p>
+                                    </div>
+                                </div>
+                            </div>
 
-            <div class="row">
-                <div class="col-sm-4 col-sm-push-1">
+                    }
+           
+             <div class="row">
+                <div class="col-sm-6 col-sm-push-1">
                     <div class="form-group">
                         <span>Rate</span>
                         <div class="btn-group" data-toggle="buttons">
@@ -88,11 +109,9 @@
                     <div class="form-group">
                         <input type="submit" class="btn btn-primary" value="Comment and Rate">
                     </div>
-                </div>
-
-                
+                </div> 
             </div>
-            }
+           }
         </section>
 
     </div>
@@ -105,51 +124,54 @@
     $(function () {
         $("#radio1").change(function () {
 
-            
-            $("#radio2").parent().removeClass("active focus");
-            $("#radio3").parent().removeClass("active focus");
-            $("#radio4").parent().removeClass("active focus");
-            $("#radio5").parent().removeClass("active focus");
+            for (var i = 1; i <= 5; i++) {
+                if (i == 1)
+                    $("#radio" + i).parent().addClass("active");
+                else
+                    $("#radio" + i).parent().removeClass("active");
+            }
 
         });
 
         $("#radio2").change(function () {
 
-            $("#radio1").parent().addClass("active focus ");
-            
-            $("#radio3").parent().removeClass("active focus ");
-            $("#radio4").parent().removeClass("active focus");
-            $("#radio5").parent().removeClass("active focus");
+            for (var i = 1; i <= 5; i++) {
+                if(i<=2)
+                    $("#radio" + i).parent().addClass("active");
+                else
+                    $("#radio" + i).parent().removeClass("active");
+            }
 
         });
 
         $("#radio3").change(function () {
 
-            $("#radio1").parent().addClass("active focus");
-            $("#radio2").parent().addClass("active focus");
-
-            $("#radio4").parent().removeClass("active focus");
-            $("#radio5").parent().removeClass("active focus");
+            for (var i = 1; i <= 5; i++) {
+                if (i <= 3)
+                    $("#radio" + i).parent().addClass("active");
+                else
+                    $("#radio" + i).parent().removeClass("active");
+            }
 
         });
 
         $("#radio4").change(function () {
 
-            $("#radio1").parent().addClass("active focus");
-            $("#radio2").parent().addClass("active focus");
-            $("#radio3").parent().addClass("active focus");
-
-            $("#radio5").parent().removeClass("active focus");
+            for (var i = 1; i <= 5; i++) {
+                if (i <= 4)
+                    $("#radio" + i).parent().addClass("active");
+                else
+                    $("#radio" + i).parent().removeClass("active");
+            }
 
         });
 
         $("#radio5").change(function () {
 
-            $("#radio1").parent().addClass("active focus");
-            $("#radio2").parent().addClass("active focus");
-            $("#radio3").parent().addClass("active focus");
-            $("#radio4").parent().addClass("active focus");
-
+            for (var i = 1; i <= 5; i++) {
+                $("#radio" + i).parent().addClass("active");
+               
+            }
         });
     });
 </script>

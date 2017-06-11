@@ -52,19 +52,22 @@ namespace ElearnerApp.Controllers
 
         public ActionResult Content(int id)
         {
-            ViewData["LogInFirst"] = false;
-
-            if(TempData["Message"] != null)
-            {
-                ViewBag.Message = (bool)TempData["Message"];
-            }
-            
 
             if (Session[UserType.LoggedInUser.ToString()] == null)
             {
                 ViewData["LogInFirst"] = true;
                 return RedirectToAction("LogIn", "Authedication");
             }
+
+            ViewData["LogInFirst"] = false;
+
+            if (TempData["Comment"] != null || TempData["Rating"] != null)
+            {
+                ViewBag.Comment = (bool)TempData["Comment"];
+                ViewBag.Rating = (bool)TempData["Rating"];
+            }
+            
+
 
             Course result = ElearnerDataLayoutActions.GetContent(id);
 
@@ -85,36 +88,34 @@ namespace ElearnerApp.Controllers
             var courseId = contentVM.Course.Id;
             int accountId = ((Account)Session[UserType.LoggedInUser.ToString()]).Id;
 
-            using (ElearnerContext dbContext = new ElearnerContext())
-            {
-
-                if (!String.IsNullOrEmpty(comment) && rating!= null)
-                {
-                    // If you have composite primary key, then pass key values in the order they defined in model:
-                    var subscriptionInDB = dbContext.Subscriptions.Find(courseId, accountId);
-
-                    subscriptionInDB.Comment = comment;
-                    subscriptionInDB.Rate = rating;
-                    try
-                    {
-                        dbContext.SaveChanges();
-                        TempData["Message"] = true;
-                    }
-                    catch (Exception)
-                    {
-                        TempData["Message"] = false;
-                    }
-                    
-                    return RedirectToAction("Content", "Courses", new {id = courseId});
-                }
-                else
-                {
-                    TempData["Message"] = false;
-                    return RedirectToAction("Content", "Courses", new { id = courseId });
-                }
-                    
-            }
             
+            if (!String.IsNullOrEmpty(comment) && rating != null)
+            {
+                ElearnerDataLayoutActions.SaveSubscriptionChanges(courseId, accountId, comment, rating);
+                TempData["Comment"] = true;
+                TempData["Rating"] = true;
+            }
+            else if (!String.IsNullOrEmpty(comment))
+            {
+                ElearnerDataLayoutActions.SaveSubscriptionChanges(courseId, accountId, comment, rating);
+                TempData["Comment"] = true;
+                TempData["Rating"] = false;
+            }
+            else if (rating != null)
+            {
+                ElearnerDataLayoutActions.SaveSubscriptionChanges(courseId, accountId, comment, rating);
+                TempData["Comment"] = false;
+                TempData["Rating"] = true;
+            }
+            else
+            {
+                TempData["Comment"] = false;
+                TempData["Rating"] = false;
+            }
+
+
+            return RedirectToAction("Content", "Courses", new { id = courseId });       
+
         }
 
 

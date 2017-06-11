@@ -301,5 +301,32 @@ namespace ElearnerApp.Utilities
                 return teacherList;
             }
         }
+
+        public static void SaveSubscriptionChanges(int courseId, int accountId, string comment, byte? rating)
+        {
+            using (ElearnerContext dbContext = new ElearnerContext())
+            {
+                // If you have composite primary key, then pass key values in the order they defined in model:
+                var subscriptionInDB = dbContext.Subscriptions.Find(courseId, accountId);
+
+                if (!String.IsNullOrEmpty(comment))
+                    subscriptionInDB.Comment = comment;
+
+                if (rating != null)
+                    subscriptionInDB.Rate = rating;
+
+                try
+                {
+                    dbContext.SaveChanges();
+                }
+                catch (Exception)
+                {
+                    throw new Exception("could not reach the Database");
+                }
+
+            }
+        }
+
+
     }
 }

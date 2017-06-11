@@ -78,7 +78,18 @@ footer {
     display: inline-block;
 }
 
+/*.btn-primary:active:hover, .btn-primary.active:hover,
+.open > .dropdown-toggle.btn-primary:hover, .btn-primary:active:focus,
+.btn-primary.active:focus, .open > .dropdown-toggle.btn-primary:focus,
+.btn-primary.focus:active, .btn-primary.active.focus, .open > .dropdown-toggle.btn-primary.focus {
+    color: #fff;
+    background-color: #bc6b1d;
+    border-color: #122b40;
+}*/
 
+.contentPage label.btn.btn-primary.active {
+    background-color: rgb(225, 194, 24);
+}
 
 
 
