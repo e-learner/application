@@ -1,0 +1,87 @@
+﻿@model ElearnerApp.ViewModels.SignUpTeacherViewModel
+@{
+    ViewBag.Title = "SignUpTeacherForm";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Sign Up now and Upload your Lesson</h2>
+
+@using (Html.BeginForm("SignUpTeacher", "Authedication", FormMethod.Post))
+{
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6">
+                <h3><span class="label label-info">Teacher Info</span></h3>
+                <div class="form-group">
+                    @Html.Label("First name")
+                    @Html.TextBoxFor(t => t.TeacherAccount.Teacher.Name, new { @class = "form-control", @placeholder = "ex. Jonh" })
+                    @Html.ValidationMessageFor(t => t.TeacherAccount.Teacher.Name)
+                </div>
+                <div class="form-group">
+                    @Html.Label("Last name")
+                    @Html.TextBoxFor(t => t.TeacherAccount.Teacher.Lastname, new { @class = "form-control", @placeholder = "ex. Doe" })
+                    @Html.ValidationMessageFor(t => t.TeacherAccount.Teacher.Lastname)
+                </div>
+
+                <div class="form-group">
+                    @Html.Label("Email Address")
+                    @Html.TextBoxFor(t => t.TeacherAccount.Email, new { @class = "form-control", @placeholder = "ex. example@otherExample.com" })
+                    @Html.ValidationMessageFor(t => t.TeacherAccount.Email)
+                </div>
+                <div class="form-group">
+                    @Html.Label("Password")
+                    @Html.TextBoxFor(t => t.TeacherAccount.Password, new { @class = "form-control", @placeholder = "ex. P@ssw0rd78" })
+                    @Html.ValidationMessageFor(t => t.TeacherAccount.Password)
+                </div>
+                <div class="form-group">
+                    @Html.Label("Confirmation Password")
+                    @Html.TextBoxFor(t => t.ConfirmationPassword, new { @class = "form-control", @placeholder = "ex. re-type P@ssw0rd78" })
+                    @Html.ValidationMessageFor(t => t.ConfirmationPassword)
+                </div>
+                <div class="form-group">
+                    @Html.Label("Deposit")
+                    @Html.TextBoxFor(m => m.TeacherAccount.BankAccount.Deposit, new { @class = "form-control", @placeholder = "ex. 10.34" })
+                    @Html.ValidationMessageFor(m => m.TeacherAccount.BankAccount.Deposit)
+                </div>
+                <h3><span class="label label-info">Course Info</span></h3>
+                <div class="form-group">
+                    @Html.Label("Name")
+                    @Html.TextBoxFor(m => m.TeachingCourse.Name, new { @class = "form-control", @placeholder = "ex. Maths" })
+                    @Html.ValidationMessageFor(m => m.TeachingCourse.Name)
+                </div>
+                <div class="form-group">
+                    @Html.Label("Duration")
+                    @Html.TextBoxFor(m => m.TeachingCourse.Duration, new { @class = "form-control", @placeholder = "ex. number of hours (10)" })
+                    @Html.ValidationMessageFor(m => m.TeachingCourse.Duration)
+                </div>
+                <div class="form-group">
+                    @Html.Label("Price")
+                    @Html.TextBoxFor(m => m.TeachingCourse.Price, new { @class = "form-control", @placeholder = "ex. 10 &euro;" })
+                    @Html.ValidationMessageFor(m => m.TeachingCourse.Price)
+                </div>
+                <div class="form-group">
+                    @Html.Label("Description")
+                    @Html.TextBoxFor(m => m.TeachingCourse.Description, new { @class = "form-control", @placeholder = "ex. Here you will learn bla bla" })
+                    @Html.ValidationMessageFor(m => m.TeachingCourse.Duration)
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <h3><span class="label label-info">Course Contents</span></h3>
+                <div class="form-group">
+                    @Html.Label("Documentation")
+                    @Html.TextAreaFor(m => m.TeachingCourse.Content.TextContent, new { @class = "form-control", @placeholder = "ex. Write a documantion..." })
+                    @Html.ValidationMessageFor(m => m.TeachingCourse.Content.TextContent)
+                </div>
+                <div class="form-group">
+                    @Html.Label("Video Link")
+                    @Html.TextBoxFor(m => m.TeachingCourse.Content.VideoUrl, new { @class = "form-control", @placeholder = "ex. Enter video URL" })
+                    @Html.ValidationMessageFor(m => m.TeachingCourse.Content.VideoUrl)
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Sign Up</button>
+
+}
+
