@@ -1,0 +1,56 @@
+﻿@model ElearnerApp.ViewModels.QuizViewModel
+@{
+    ViewBag.Title = "Quiz";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script>
+    function IsChecked() {
+
+        var is_checked = new Array(10);
+
+        for (i = 0; i < is_checked.length; i++) {
+            is_checked[i] = document.getElementById(String(i)).checked;
+        }
+
+        for (i = 0; i < is_checked.length / 2; i++) {
+
+            if (is_checked[2 * i] == false && is_checked[2 * i + 1] == false) {
+                alert('Please Answer All Questions')
+                return false;
+            } else if (i == is_checked.length / 2 - 1) {
+                return true;
+            }
+        }
+    }
+</script>
+
+<h2>@Model.Course.Name</h2>
+@using (Html.BeginForm("QuizResults", "Courses", FormMethod.Post, new { onsubmit = "return IsChecked()" }))
+{
+    <div class="form-horizontal">
+
+        @for (int i = 0; i < Model.Questions.Count; i++)
+        {
+            <div class="form-group">
+
+                <b>@Html.Label(Model.Questions[i].QuestionStr)</b><br>
+                @Html.RadioButtonFor(m => m.UserAnswers[i], true, new { id = (2 * i).ToString() }) True
+                @Html.RadioButtonFor(m => m.UserAnswers[i], false, new { id = (2 * i + 1).ToString() }) False
+            </div>
+        }
+
+        <div class="form-group">
+            <input type="submit" class="btn btn-primary" value="Submit">
+        </div>
+
+        <script>
+        $('form').submit(function() {
+        @{ TempData["FullModel"] = Model; }
+        });
+        </script>
+
+
+    </div>
+    }
+<!--Metafora olwn twn properties tou Model sto Action QuizResults-->

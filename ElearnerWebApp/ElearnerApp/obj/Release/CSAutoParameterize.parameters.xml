@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<parameters>
+  <parameter name="ELearnerDbContext-Web.config Connection String" description="ELearnerDbContext Connection String used in web.config by the application to access the database." defaultValue="data source=.\SQLEXPRESS; initial catalog=ELearnerDB; integrated security=SSPI" tags="SqlConnectionString">
+    <parameterEntry kind="XmlFile" scope="C:\\Users\\dtheo\\OneDrive\\Έγγραφα\\GitHub\\application\\ElearnerWebApp\\ElearnerApp\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='ELearnerDbContext']/@connectionString" />
+  </parameter>
+  <parameter name="ElearnerContext-Web.config Connection String" description="ElearnerContext Connection String used in web.config by the application to access the database." defaultValue="data source=.\SQLEXPRESS;initial catalog=ELearnerDB;integrated security=True;MultipleActiveResultSets=True;App=EntityFramework" tags="SqlConnectionString">
+    <parameterEntry kind="XmlFile" scope="C:\\Users\\dtheo\\OneDrive\\Έγγραφα\\GitHub\\application\\ElearnerWebApp\\ElearnerApp\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='ElearnerContext']/@connectionString" />
+  </parameter>
+</parameters>

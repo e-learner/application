@@ -1,0 +1,24 @@
+﻿@model ElearnerApp.ViewModels.QuizViewModel
+@{
+    ViewBag.Title = "QuizResults";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Quiz Results</h2>
+
+<ul>
+    @{
+        for (int i = 0; i < Model.QuizResults.Count; i++)
+        {
+            if (Model.QuizResults[i])
+            {
+                <li>@(String.Format("Question {0} : {1} : Right!!", i + 1, Model.Questions[i].QuestionStr))</li>
+            }
+            else
+            {
+                <li>@(String.Format("Question {0} : {1} : Wrong!!", i + 1, Model.Questions[i].QuestionStr))</li>
+            }
+
+        }
+    }
+</ul>

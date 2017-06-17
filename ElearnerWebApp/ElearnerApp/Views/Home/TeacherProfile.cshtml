@@ -1,0 +1,35 @@
+﻿@using System.Collections.Generic
+@model IList<ElearnerApp.Models.Course>
+@{
+    ViewBag.Title = "TeacherProfile";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ElearnerApp.Models.Account loggedInUser = (ElearnerApp.Models.Account)Session[ElearnerApp.Utilities.UserType.LoggedInUser.ToString()];
+}
+<div class="container">
+    <div class="row">
+        <div class="col-lg-6">
+            <h2>My Profile</h2>
+            <hr />
+            <p>Name : <b>@loggedInUser.Teacher.Name</b></p><br />
+            <p>Last Name : <b>@loggedInUser.Teacher.Lastname</b></p><br />
+            <p>Account Number: <b>@loggedInUser.Id</b></p><br />
+            <p>Email Address : <b>@loggedInUser.Email</b></p>
+        </div>
+        <div class="col-lg-6">
+            <h2>My Courses</h2>
+            <hr />
+            @{
+                if (Model.Count == 0)
+                {
+                    <p>You have no Courses.</p>
+                }
+                foreach (var course in Model)
+                {
+                    <p>&diams; <a href="@Url.Action("EditCourse","Courses", new {id = course.Id })" class="btn btn-default btn-lg active" role="button">@course.Name</a></p>
+                }
+            }
+        </div>
+    </div>
+</div>
+
+

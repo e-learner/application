@@ -1,0 +1,27 @@
+﻿@using ElearnerApp.Utilities
+@{
+    var mostPopularCourses = ElearnerDataLayoutActions.GetMostPopular();
+    ElearnerApp.Models.Student currentLoggedInUser = ElearnerApp.Models.AppManager.LoggedInUser;
+    string buttonDisabled = currentLoggedInUser == null ? "disabled" : null;
+}
+
+<div class="container">
+    <h1 class="popular">Most popular Courses</h1>
+    <hr />
+    <div class="row">
+        @for (int i = 0; i < 3; i++)
+        {
+            string imageFileName = FileTools.RemoveSpacesFromFilename(mostPopularCourses[i].Name) + ".png";
+
+            <div class="col-sm-6 col-md-4">
+                <div class="thumbnail">
+                    <a href=@Url.Action("CourseView", "Courses",new { id = mostPopularCourses[i].Id })><img src="~/Content/images/@imageFileName" alt="logo"></a>
+                    <div class="caption">
+                        <a href=@Url.Action("CourseView", "Courses",new { id = mostPopularCourses[i].Id })><h1>@mostPopularCourses[i].Name</h1></a>
+                        <p>@AppTools.LimitDescription(mostPopularCourses[i].Description, 300)...</p>                    
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

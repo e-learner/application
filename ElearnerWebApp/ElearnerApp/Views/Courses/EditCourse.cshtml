@@ -1,0 +1,109 @@
+﻿@model ElearnerApp.Models.Course
+@{
+    ViewBag.Title = "SignUpTeacherForm";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Edit your Course</h2>
+<hr />
+@using (Html.BeginForm("SaveCourseChanges", "Courses", FormMethod.Post))
+{
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6">
+                <h3><span class="label label-info">Course Info</span></h3>
+                <div class="form-group">
+                    @Html.Label("Name")
+                    @Html.TextBoxFor(m => m.Name, new { @class = "form-control", @placeholder = Model.Name })
+                    @Html.ValidationMessageFor(m => m.Name)
+                </div>
+                <div class="form-group">
+                    @Html.Label("Duration")
+                    @Html.TextBoxFor(m => m.Duration, new { @class = "form-control", @placeholder = Model.Duration })
+                    @Html.ValidationMessageFor(m => m.Duration)
+                </div>
+                <div class="form-group">
+                    @Html.Label("Price")
+                    @Html.TextBoxFor(m => m.Price, new { @class = "form-control", @placeholder = Model.Price })
+                    @Html.ValidationMessageFor(m => m.Price)
+                </div>
+                <div class="form-group">
+                    @Html.Label("Description")
+                    @Html.TextBoxFor(m => m.Description, new { @class = "form-control", @placeholder = Model.Description })
+                    @Html.ValidationMessageFor(m => m.Description)
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <h3><span class="label label-info">Course Contents</span></h3>
+                <div class="form-group">
+                    @Html.Label("Documentation")
+                    @Html.TextAreaFor(m => m.Content.TextContent, new { @class = "form-control", @placeholder = Model.Content.TextContent })
+                    @Html.ValidationMessageFor(m => m.Content.TextContent)
+                </div>
+                <div class="form-group">
+                    @Html.Label("Video Link")
+                    @Html.TextBoxFor(m => m.Content.VideoUrl, new { @class = "form-control", @placeholder = Model.Content.VideoUrl })
+                    @Html.ValidationMessageFor(m => m.Content.VideoUrl)
+                </div>
+                <div class="form-group">
+                   @Html.HiddenFor(m =>m.Id, new { @class = "form-control"})
+                </div>
+                @*<div class="form-group">
+                    @Html.Label("Image Thumbnail")
+                    <input type="file" name="Image" value="@(Model.Name + ".png")" />
+                </div>*@
+                @*<h3><span class="label label-info">Course Quiz</span></h3>*@
+                @* //TODO: Better Way!! *@
+                
+                @*<div class="form-group">
+                    @Html.Label("Question ")
+                    @Html.TextBoxFor(m => ((List<ElearnerApp.Models.Question>)m.Questions)[0].QuestionStr, new { @class = "form-control", @placeholder = ((List<ElearnerApp.Models.Question>)Model.Questions)[0].QuestionStr })
+                    @Html.ValidationMessageFor(m => ((List<ElearnerApp.Models.Question>)m.Questions)[0].QuestionStr)
+                </div>
+                <div class="form-group">
+                    @Html.Label("Answer ")
+                    @Html.CheckBoxFor(m => ((List<ElearnerApp.Models.Question>)m.Questions)[0].Answer, new { @class = "form-control" })
+                </div>
+                <div class="form-group">
+                    @Html.Label("Question ")
+                    @Html.TextBoxFor(m => ((List<ElearnerApp.Models.Question>)m.Questions)[1].QuestionStr, new { @class = "form-control", @placeholder = ((List<ElearnerApp.Models.Question>)Model.Questions)[1].QuestionStr })
+                    @Html.ValidationMessageFor(m => ((List<ElearnerApp.Models.Question>)m.Questions)[1].QuestionStr)
+                </div>
+                <div class="form-group">
+                    @Html.Label("Answer ")
+                    @Html.CheckBoxFor(m => ((List<ElearnerApp.Models.Question>)m.Questions)[1].Answer, new { @class = "form-control" })
+                </div>
+                <div class="form-group">
+                    @Html.Label("Question ")
+                    @Html.TextBoxFor(m => ((List<ElearnerApp.Models.Question>)m.Questions)[2].QuestionStr, new { @class = "form-control", @placeholder = ((List<ElearnerApp.Models.Question>)Model.Questions)[2].QuestionStr })
+                    @Html.ValidationMessageFor(m => ((List<ElearnerApp.Models.Question>)m.Questions)[2].QuestionStr)
+                </div>
+                <div class="form-group">
+                    @Html.Label("Answer ")
+                    @Html.CheckBoxFor(m => ((List<ElearnerApp.Models.Question>)m.Questions)[2].Answer, new { @class = "form-control" })
+                </div>
+                <div class="form-group">
+                    @Html.Label("Question ")
+                    @Html.TextBoxFor(m => ((List<ElearnerApp.Models.Question>)m.Questions)[3].QuestionStr, new { @class = "form-control", @placeholder = ((List<ElearnerApp.Models.Question>)Model.Questions)[3].QuestionStr })
+                    @Html.ValidationMessageFor(m => ((List<ElearnerApp.Models.Question>)m.Questions)[3].QuestionStr)
+                </div>
+                <div class="form-group">
+                    @Html.Label("Answer ")
+                    @Html.CheckBoxFor(m => ((List<ElearnerApp.Models.Question>)m.Questions)[3].Answer, new { @class = "form-control" })
+                </div>
+                <div class="form-group">
+                    @Html.Label("Question ")
+                    @Html.TextBoxFor(m => ((List<ElearnerApp.Models.Question>)m.Questions)[4].QuestionStr, new { @class = "form-control", @placeholder = ((List<ElearnerApp.Models.Question>)Model.Questions)[4].QuestionStr })
+                    @Html.ValidationMessageFor(m => ((List<ElearnerApp.Models.Question>)m.Questions)[4].QuestionStr)
+                </div>
+                <div class="form-group">
+                    @Html.Label("Answer ")
+                    @Html.CheckBoxFor(m => ((List<ElearnerApp.Models.Question>)m.Questions)[4].Answer, new { @class = "form-control" })
+                </div>*@
+            </div>
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Save Changes</button>
+}
+
