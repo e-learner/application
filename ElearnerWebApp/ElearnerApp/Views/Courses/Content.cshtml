@@ -110,11 +110,16 @@
                         <div class="form-group col-sm-4 pull-right">
                             <input type="submit" class="btn btn-primary" value="Comment / Rate">
                         </div>
+                        
                     
                 </div>
             }
         </section>
 
+
+        <div class="form-group col-sm-4 pull-right">
+            <input type="submit" class="btn btn-primary test" value="Test">
+        </div>
     </div>
 
 
@@ -122,7 +127,30 @@
 
 <script src="~/Scripts/jquery-3.2.1.js"></script>
 <script>
+    var vm = {
+        "Id": 2,
+        "Name": "C# for beginners",
+        "Duration": 10,
+        "Price": 0,
+        "TeacherId": 2,
+        "Description": "C# is a beautiful cross-platform language that can be used to build variety of applications. With C#, you can build mobile apps (for Windows, Android and iOS), games, web sites and desktop applications.\r\n\r\n\r\nOnce you master fundamentals of C# and programming with .NET framework, you'll have lots of options in front of you. You can choose to build mobile apps if you prefer, or you can change job and work as a web developer. As long as you know the fundamentals well, switching to different technology stacks is pretty easy.\r\n\r\n\r\n",
+        "Content": null,
+        "Teacher": null,
+        "Questions": [],
+        "Subscriptions": []
+    };
+    $(document).ready(function () {
+        $('.test').on("click", function () {
+            $.post("http://localhost:50077/api/comment/", vm)
+                .done(data => console.log(data))
+                .fail(data => console.log("lathos"));
+
+             });
+        });
+       
+
     $(function () {
+
         $("#radio1").change(function () {
 
             for (var i = 1; i <= 5; i++) {
