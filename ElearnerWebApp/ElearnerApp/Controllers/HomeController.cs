@@ -80,6 +80,30 @@ namespace ElearnerApp.Controllers
             return View("Index");
         }
 
+        public ActionResult AddCourse()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult AddCourseToDb(AddCourseViewModel addCourseViewModel)
+        {
+            if (!ModelState.IsValid)
+                return View("AddCourse");
+
+            Account currentUser = (Account)Session[UserType.LoggedInUser.ToString()];
+            addCourseViewModel.AddQuestions();
+            ElearnerDataLayoutActions.AddCourseToDb(currentUser, addCourseViewModel);
+
+            if (addCourseViewModel.Image.ContentLength > 0)
+            {
+                var fileName = Path.GetFileName(addCourseViewModel.Image.FileName);
+                var path = Path.Combine(Server.MapPath("~/Content/images"), Utilities.FileTools.RemoveSpacesFromFilename(addCourseViewModel.TeachingCourse.Name) + ".png");
+                addCourseViewModel.Image.SaveAs(path);
+            }
+
+            return View("Index");
+        }
         // Only for testing
         public ActionResult Test()
         {

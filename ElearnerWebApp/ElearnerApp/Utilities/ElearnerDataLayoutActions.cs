@@ -241,7 +241,10 @@ namespace ElearnerApp.Utilities
                     .Where(c => c.CourseId == courseId)
                     .Where(s => s.StudentId == accountid)
                     .FirstOrDefault();
-                if (dbRecord != null)
+
+                if (dbRecord != null && dbRecord.Course.Price == 0.0m)
+                    return "Course is free";
+                else if(dbRecord != null)
                     return "Course already has purchased!";
 
                 BankAccount currentUserDeposit = dbContext.BankAccounts.Where(b => b.AccountId == accountid).FirstOrDefault();
@@ -438,6 +441,25 @@ namespace ElearnerApp.Utilities
             }
 
             return avg;
+        }
+
+        public static void AddCourseToDb(Account account, AddCourseViewModel addCourseViewModel)
+        {
+            using (ElearnerContext dbContext = new ElearnerContext())
+            {
+                dbContext.Courses.Add(new Course()
+                {
+                    Name = addCourseViewModel.TeachingCourse.Name,
+                    Duration = addCourseViewModel.TeachingCourse.Duration,
+                    Price = addCourseViewModel.TeachingCourse.Price,
+                    Description = addCourseViewModel.TeachingCourse.Description,
+                    TeacherId = account.Id,
+                    Content = addCourseViewModel.TeachingCourse.Content,
+                    Questions = addCourseViewModel.TeachingCourse.Questions 
+                });
+
+                dbContext.SaveChanges();
+            }
         }
     }
 }

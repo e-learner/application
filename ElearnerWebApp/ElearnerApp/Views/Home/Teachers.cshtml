@@ -8,12 +8,6 @@
         <div class="col-lg-4">
             <h2>List Of Our Teachers</h2>
         </div>
-        <div class="col-lg-4 col-lg-push-4">
-            @if(Session[ElearnerApp.Utilities.UserType.LoggedInUser.ToString()] == null)
-            {
-                <a class="btn-lg btn-success" href="@Url.Action("SignUpTeacherForm", "Authedication")">Become a Teacher</a>
-            }
-        </div>
     </div>
     <div class="row">
         <div class="col-lg-12">

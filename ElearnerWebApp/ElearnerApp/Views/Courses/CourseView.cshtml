@@ -66,7 +66,7 @@
                         }
                         else if (Model.Price == 0) //Free course
                         {
-                            <a class="btn btn-lg btn-primary" href="@Url.Action("Content", "Courses", new { id = Model.Id })" role="button">View Course</a>
+                            <a class="btn btn-lg btn-primary" href="@Url.Action("Purchase", new { id = Model.Id, name = Model.Name, duration = Model.Duration, price = Model.Price, teacherId = Model.TeacherId })" role="button">View Course</a>
                         }
                         else //guest user not free course
                         {
@@ -76,8 +76,6 @@
                         }
                     }
                 </div>
-
-
             </div>
         </div>
         <br />

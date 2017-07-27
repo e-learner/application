@@ -13,14 +13,14 @@
             <img src="~/Content/images/@imageFileName" alt="@imageFileName" />
             <p>Price: @Model.SelectedCourse.Price &euro;</p>
         </div>
-        <div class="col-lg-6">
+        <div class="col-lg-6 text-center">
             <p class="text-center">@Model.ResultMessase</p>
             @{
                 switch (Model.ResultMessase)
                 {
                     case "Course is successfully purchased!":
                     case "Course already has purchased!":
-                        <a class="btn btn-lg btn-success" href="@Url.Action("Content", "Courses", new { id = Model.SelectedCourse.Id })" role="button">View Course</a>
+                        <a class="btn btn-lg btn-success " href="@Url.Action("Content", "Courses", new { id = Model.SelectedCourse.Id })" role="button">View Course</a>
                         break;
                     case "You dont have enough money!":
                         <a class="btn btn-lg btn-info" href="@Url.Action("AddMoney", "Home")" role="button">Add money!</a>

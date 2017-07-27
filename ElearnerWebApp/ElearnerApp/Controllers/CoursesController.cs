@@ -59,6 +59,10 @@ namespace ElearnerApp.Controllers
             }
 
             purchaseViewModel.ResultMessase = ElearnerDataLayoutActions.PurchaseCourse(current.Id, logInUser.Id, current.Price);
+
+            if (purchaseViewModel.ResultMessase == "Course is free")
+                return RedirectToAction("Content", new {Id = current.Id });
+
             purchaseViewModel.SelectedCourse = current;
             logInUser.BankAccount.Deposit = ElearnerDataLayoutActions.UpdateUserDeposit(logInUser.Id);
 
